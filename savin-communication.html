@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Savin Communication — India's Leading PR & Creative Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- ============================================================
+  EMAIL SETUP (EmailJS — free at emailjs.com, no backend needed)
+  ─────────────────────────────────────────────────────────────
+  STEP 1: Sign up at https://www.emailjs.com (free tier = 200 emails/month)
+  STEP 2: Add Email Service → connect Gmail / Outlook / any SMTP
+  STEP 3: Create an Email Template with these variables:
+            {{from_name}}, {{from_email}}, {{company}},
+            {{service}}, {{message}}, {{to_email}}
+          Set "To Email" in template to: business@savincommunication.com
+  STEP 4: Replace the three placeholders below:
+            YOUR_PUBLIC_KEY  → Account → API Keys → Public Key
+            YOUR_SERVICE_ID  → Email Services → your service ID
+            YOUR_TEMPLATE_ID → Email Templates → your template ID
+  ============================================================ -->
+
+<style>
+  :root {
+    --white:   #FFFFFF;
+    --cream:   #FFF8F2;
+    --orange:  #E05F10;
+    --orange-d:#B84C08;
+    --orange-l:#FDEEE3;
+    --ink:     #1C1008;
+    --ink2:    #3D2A18;
+    --muted:   #7A6050;
+    --border:  #EDD9C9;
+    --display: 'Playfair Display', Georgia, serif;
+    --body:    'Lora', Georgia, serif;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--white); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 68px;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 24px rgba(224,95,16,0.10); }
+  .logo { font-family: var(--display); font-size: 1.45rem; font-weight: 700; letter-spacing: .01em; color: var(--ink); text-decoration: none; }
+  .logo span { color: var(--orange); }
+  nav ul { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+  nav ul a { color: var(--muted); text-decoration: none; font-family: var(--body); font-size: .85rem; letter-spacing: .03em; font-weight: 500; transition: color .2s; }
+  nav ul a:hover { color: var(--ink); }
+  .nav-cta { background: var(--orange) !important; color: #fff !important; padding: .48rem 1.25rem; border-radius: 3px; font-weight: 600 !important; letter-spacing: .04em !important; transition: background .2s !important; }
+  .nav-cta:hover { background: var(--orange-d) !important; color: #fff !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 1.5px; background: var(--ink); display: block; }
+
+  /* HERO */
+  #hero {
+    height: 100vh; min-height: 620px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 68px;
+  }
+  .hero-left {
+    background: var(--white); display: flex; flex-direction: column;
+    justify-content: center; padding: 4rem 4% 4rem 6%;
+    border-right: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font-family: var(--body); font-size: .72rem; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--orange); font-weight: 600; margin-bottom: 1.4rem;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--orange); }
+  h1 { font-family: var(--display); font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 900; line-height: 1.1; letter-spacing: -.01em; color: var(--ink); margin-bottom: 1.3rem; }
+  h1 em { color: var(--orange); font-style: italic; }
+  .hero-desc { color: var(--muted); font-size: .97rem; max-width: 420px; line-height: 1.8; margin-bottom: 2.5rem; font-style: italic; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { display: inline-flex; align-items: center; gap: .5rem; background: var(--orange); color: #fff; padding: .85rem 2rem; border-radius: 3px; font-family: var(--body); font-weight: 600; font-size: .9rem; text-decoration: none; letter-spacing: .04em; transition: background .2s, transform .2s; }
+  .btn-primary:hover { background: var(--orange-d); transform: translateY(-1px); }
+  .btn-ghost { display: inline-flex; align-items: center; gap: .5rem; border: 1.5px solid var(--border); color: var(--ink2); padding: .85rem 2rem; border-radius: 3px; font-family: var(--body); font-weight: 500; font-size: .9rem; text-decoration: none; transition: border-color .2s, color .2s; }
+  .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+  /* Hero right */
+  .hero-right { background: var(--orange); display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background-color: rgba(255,255,255,0.12); }
+  .stat-tile { background: var(--orange); display: flex; flex-direction: column; justify-content: flex-end; padding: 2.2rem 2rem; transition: background .25s; }
+  .stat-tile:hover { background: var(--orange-d); }
+  .stat-num { font-family: var(--display); font-size: 2.8rem; font-weight: 900; letter-spacing: -.03em; color: #fff; line-height: 1; margin-bottom: .35rem; }
+  .stat-label { color: rgba(255,255,255,0.8); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+  .stat-sub { color: rgba(255,255,255,0.5); font-size: .75rem; margin-top: .2rem; font-style: italic; }
+
+  /* TICKER */
+  .ticker-wrap { background: var(--ink); padding: .7rem 0; overflow: hidden; white-space: nowrap; }
+  .ticker-track { display: inline-flex; animation: ticker 28s linear infinite; }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .ticker-item { color: rgba(255,255,255,0.55); font-family: var(--body); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; padding: 0 2.5rem; display: inline-flex; align-items: center; gap: .8rem; }
+  .ticker-dot { width: 4px; height: 4px; background: var(--orange); border-radius: 50%; flex-shrink: 0; }
+
+  /* SHARED */
+  section { padding: 6rem 6%; }
+  .section-eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-family: var(--body); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--orange); font-weight: 600; margin-bottom: .9rem; }
+  .section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--orange); display: block; }
+  h2 { font-family: var(--display); font-size: clamp(1.9rem, 3.5vw, 3rem); font-weight: 800; line-height: 1.12; color: var(--ink); margin-bottom: 1rem; letter-spacing: -.01em; }
+  h2 em { color: var(--orange); font-style: italic; }
+  .section-desc { color: var(--muted); max-width: 520px; font-size: .97rem; line-height: 1.8; font-style: italic; }
+
+  /* SERVICES */
+  #services { background: var(--cream); }
+  .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1.5rem; }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .service-card { background: var(--white); padding: 2.5rem 2rem 2rem; transition: background .25s; cursor: default; }
+  .service-card:hover { background: var(--orange-l); }
+  .service-card:hover .service-num { color: var(--orange); }
+  .service-num { font-family: var(--display); font-size: 2.4rem; font-weight: 900; color: var(--border); line-height: 1; margin-bottom: .8rem; transition: color .25s; letter-spacing: -.03em; }
+  .service-name { font-family: var(--display); font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: .6rem; line-height: 1.2; }
+  .service-desc { color: var(--muted); font-size: .875rem; line-height: 1.75; font-style: italic; }
+  .service-tags { display: flex; gap: .45rem; flex-wrap: wrap; margin-top: 1.2rem; }
+  .tag { font-family: var(--body); font-size: .67rem; letter-spacing: .08em; text-transform: uppercase; padding: .22rem .65rem; font-weight: 600; border: 1px solid; }
+  .tag-o { border-color: var(--orange); color: var(--orange); }
+  .tag-i { border-color: var(--muted); color: var(--muted); }
+  .service-link { display: inline-flex; align-items: center; gap: .4rem; color: var(--muted); font-size: .8rem; text-decoration: none; margin-top: 1.3rem; font-style: italic; transition: color .2s; }
+  .service-link:hover { color: var(--orange); }
+  .service-link::after { content: '→'; font-style: normal; transition: transform .2s; }
+  .service-link:hover::after { transform: translateX(4px); }
+
+  /* NUMBERS */
+  #numbers { background: var(--orange); padding: 5rem 6%; }
+  #numbers h2 { color: #fff; }
+  #numbers h2 em { color: rgba(255,255,255,0.6); }
+  #numbers .section-eyebrow { color: rgba(255,255,255,0.7); }
+  #numbers .section-eyebrow::before { background: rgba(255,255,255,0.45); }
+  .numbers-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1.5rem; }
+  .numbers-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.15); }
+  .num-card { background: rgba(0,0,0,0.1); padding: 2.5rem 1.8rem; transition: background .25s; }
+  .num-card:hover { background: rgba(0,0,0,0.18); }
+  .big-num { font-family: var(--display); font-size: clamp(2.5rem,4vw,4rem); font-weight: 900; letter-spacing: -.03em; color: #fff; line-height: 1; display: block; }
+  .num-label { color: rgba(255,255,255,0.7); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; margin-top: .7rem; font-weight: 600; display: block; }
+  .num-sub { color: rgba(255,255,255,0.45); font-size: .78rem; margin-top: .3rem; font-style: italic; display: block; }
+
+  /* WHY US */
+  #why { background: var(--white); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; }
+  .why-visual { background: var(--cream); border: 1px solid var(--border); padding: 2.5rem; position: relative; }
+  .why-visual::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--orange); }
+  .why-chart-label { color: var(--muted); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1.8rem; }
+  .why-chart-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+  .why-bar-label { color: var(--muted); font-size: .8rem; width: 140px; flex-shrink: 0; font-style: italic; }
+  .why-bar-wrap { flex: 1; background: var(--border); height: 6px; }
+  .why-bar { height: 100%; background: var(--orange); }
+  .why-bar-val { color: var(--ink); font-size: .82rem; font-weight: 600; width: 36px; text-align: right; flex-shrink: 0; font-family: var(--display); }
+  .why-bottom { display: flex; gap: 2.5rem; padding-top: 1.5rem; margin-top: 1.5rem; border-top: 1px solid var(--border); }
+  .why-stat .val { font-family: var(--display); font-size: 1.8rem; font-weight: 900; color: var(--orange); line-height: 1; }
+  .why-stat .lbl { color: var(--muted); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; margin-top: .25rem; }
+  .features-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .feature-item { display: flex; gap: 1.2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .feature-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .feature-num { font-family: var(--display); font-size: 1.1rem; font-weight: 900; color: var(--orange); flex-shrink: 0; line-height: 1; padding-top: .2rem; }
+  .feature-title { font-family: var(--display); font-weight: 700; font-size: .97rem; margin-bottom: .3rem; color: var(--ink); }
+  .feature-desc { color: var(--muted); font-size: .855rem; font-style: italic; line-height: 1.75; }
+
+  /* PROCESS */
+  #process { background: var(--cream); text-align: center; }
+  .process-steps { display: grid; grid-template-columns: repeat(5,1fr); margin-top: 4rem; position: relative; }
+  .process-steps::before { content: ''; position: absolute; top: 21px; left: 12%; right: 12%; height: 1px; background: var(--border); z-index: 0; }
+  .step { padding: 0 .8rem; position: relative; z-index: 1; }
+  .step-dot { width: 44px; height: 44px; border-radius: 50%; margin: 0 auto 1.2rem; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: .88rem; background: var(--white); border: 2px solid var(--border); color: var(--muted); transition: all .3s; }
+  .step:hover .step-dot { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .step-name { font-family: var(--display); font-weight: 700; font-size: .95rem; color: var(--ink); margin-bottom: .4rem; }
+  .step-desc { color: var(--muted); font-size: .78rem; font-style: italic; line-height: 1.6; }
+
+  /* INDUSTRIES */
+  #industries { background: var(--white); }
+  .industries-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 3.5rem; }
+  .industry-tags { display: flex; flex-wrap: wrap; gap: .55rem; }
+  .ind-tag { background: var(--cream); border: 1px solid var(--border); padding: .5rem 1.1rem; font-size: .82rem; color: var(--ink2); font-style: italic; transition: all .2s; cursor: default; }
+  .ind-tag:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-l); }
+  .industry-quote { border-left: 3px solid var(--orange); padding-left: 1.5rem; }
+  .industry-quote blockquote { font-family: var(--display); font-size: 1.15rem; font-style: italic; color: var(--ink); line-height: 1.65; margin-bottom: .8rem; }
+  .industry-quote cite { color: var(--muted); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; font-style: normal; }
+  .industry-quote p { margin-top: 1.5rem; color: var(--muted); font-style: italic; font-size: .9rem; line-height: 1.75; }
+
+  /* CONTACT */
+  #contact { background: var(--orange); padding: 6rem 6%; }
+  #contact .section-eyebrow { color: rgba(255,255,255,0.7); }
+  #contact .section-eyebrow::before { background: rgba(255,255,255,0.45); }
+  #contact h2 { color: #fff; }
+  #contact h2 em { color: rgba(255,255,255,0.6); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; margin-top: 4rem; }
+  .contact-info h3 { font-family: var(--display); font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: .8rem; }
+  .contact-info > p { color: rgba(255,255,255,0.7); font-style: italic; margin-bottom: 2rem; line-height: 1.75; }
+  .contact-detail { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.2rem; }
+  .contact-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .9rem; }
+  .contact-text { color: rgba(255,255,255,0.8); font-size: .88rem; line-height: 1.5; }
+  .contact-text strong { color: #fff; display: block; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .2rem; font-style: normal; font-weight: 600; }
+  .contact-text a { color: rgba(255,255,255,0.8); text-decoration: none; }
+  .contact-text a:hover { color: #fff; }
+  .response-badge { margin-top: 2rem; padding: 1.5rem; background: rgba(0,0,0,0.12); border-left: 3px solid rgba(255,255,255,0.35); }
+  .response-badge .badge-label { color: rgba(255,255,255,0.6); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .3rem; }
+  .response-badge .badge-val { font-family: var(--display); font-size: 1.7rem; font-weight: 900; color: #fff; line-height: 1; }
+  .response-badge .badge-sub { color: rgba(255,255,255,0.5); font-size: .78rem; margin-top: .3rem; font-style: italic; }
+
+  /* FORM */
+  .contact-form { background: #fff; padding: 2.5rem; position: relative; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group:last-of-type { margin-bottom: 1.4rem; }
+  label { display: block; color: var(--muted); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .45rem; font-weight: 600; }
+  input, textarea, select {
+    width: 100%; background: var(--cream); border: 1px solid var(--border);
+    padding: .7rem .9rem; color: var(--ink); font-family: var(--body);
+    font-size: .9rem; outline: none; transition: border-color .2s;
+    resize: none; border-radius: 0;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--orange); background: #fff; }
+  input.error, textarea.error, select.error { border-color: #c0392b; }
+  input::placeholder, textarea::placeholder { color: rgba(122,96,80,0.4); font-style: italic; }
+  select option { background: #fff; color: var(--ink); }
+  .field-error { color: #c0392b; font-size: .72rem; margin-top: .3rem; display: none; }
+  .field-error.show { display: block; }
+
+  /* Submit button states */
+  .form-submit {
+    width: 100%; background: var(--orange); color: #fff; border: none;
+    padding: 1rem; font-weight: 700; font-size: .9rem; cursor: pointer;
+    font-family: var(--body); letter-spacing: .06em; text-transform: uppercase;
+    transition: background .2s, opacity .2s; border-radius: 0;
+    display: flex; align-items: center; justify-content: center; gap: .6rem;
+  }
+  .form-submit:hover:not(:disabled) { background: var(--orange-d); }
+  .form-submit:disabled { opacity: .7; cursor: not-allowed; }
+
+  /* Spinner */
+  .spinner {
+    width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff; border-radius: 50%;
+    animation: spin .7s linear infinite; display: none;
+  }
+  .form-submit.loading .spinner { display: block; }
+  .form-submit.loading .btn-text { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Success overlay */
+  .form-success {
+    position: absolute; inset: 0; background: #fff;
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 2.5rem;
+    animation: fadeIn .4s ease;
+  }
+  .form-success.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
+  .success-icon {
+    width: 60px; height: 60px; background: var(--orange-l); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; margin-bottom: 1.2rem;
+  }
+  .success-title { font-family: var(--display); font-size: 1.45rem; font-weight: 800; color: var(--ink); margin-bottom: .5rem; }
+  .success-sub { color: var(--muted); font-size: .9rem; font-style: italic; line-height: 1.7; max-width: 280px; }
+  .success-reset {
+    margin-top: 1.5rem; background: none; border: 1.5px solid var(--border);
+    color: var(--muted); padding: .55rem 1.4rem; font-family: var(--body);
+    font-size: .82rem; cursor: pointer; border-radius: 3px; transition: all .2s;
+  }
+  .success-reset:hover { border-color: var(--orange); color: var(--orange); }
+
+  /* Form error banner */
+  .form-error-banner {
+    background: #fdf0ef; border: 1px solid #e74c3c; color: #c0392b;
+    padding: .75rem 1rem; font-size: .83rem; margin-bottom: 1rem;
+    display: none; line-height: 1.5;
+  }
+  .form-error-banner.show { display: block; }
+
+  /* FOOTER */
+  footer { background: var(--ink); border-top: 1px solid rgba(255,255,255,0.06); padding: 4rem 6% 2rem; }
+  .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-brand .logo { color: var(--white); }
+  .footer-brand .logo span { color: var(--orange); }
+  .footer-brand p { color: rgba(255,255,255,0.4); font-size: .875rem; font-style: italic; margin-top: .8rem; max-width: 280px; line-height: 1.7; }
+  .footer-socials { display: flex; gap: .6rem; margin-top: 1.4rem; }
+  .footer-socials a { width: 34px; height: 34px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: .78rem; text-decoration: none; color: rgba(255,255,255,0.5); font-weight: 600; transition: all .2s; }
+  .footer-socials a:hover { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .footer-col h4 { font-family: var(--body); font-weight: 600; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1.1rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+  .footer-col ul a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: .875rem; font-style: italic; transition: color .2s; }
+  .footer-col ul a:hover { color: var(--orange); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-bottom p { color: rgba(255,255,255,0.25); font-size: .8rem; font-style: italic; }
+  .footer-badges { display: flex; gap: .6rem; }
+  .footer-badge { border: 1px solid rgba(255,255,255,0.1); padding: .25rem .8rem; font-size: .7rem; color: rgba(255,255,255,0.3); letter-spacing: .05em; }
+
+  /* ANIMATIONS */
+  .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .7s, transform .7s; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+  .delay-1 { transition-delay: .1s; }
+  .delay-2 { transition-delay: .2s; }
+  .delay-3 { transition-delay: .3s; }
+  .delay-4 { transition-delay: .4s; }
+
+  /* RESPONSIVE */
+  @media(max-width: 960px) {
+    #hero { grid-template-columns: 1fr; height: auto; }
+    .hero-left { padding: 3.5rem 5%; border-right: none; border-bottom: 1px solid var(--border); }
+    .hero-right { min-height: 300px; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .why-grid, .contact-grid, .industries-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .numbers-grid { grid-template-columns: 1fr 1fr; }
+    .process-steps { grid-template-columns: 1fr; gap: 2rem; }
+    .process-steps::before { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    nav ul { display: none; }
+    .hamburger { display: flex; }
+  }
+  @media(max-width: 580px) {
+    .services-grid, .numbers-grid, .form-row, .footer-grid { grid-template-columns: 1fr; }
+    .hero-right { grid-template-columns: 1fr 1fr; }
+    section { padding: 4rem 5%; }
+    h1 { font-size: 2.3rem; }
+  }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo">Savin<span>.</span></a>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#numbers">Impact</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#industries">Industries</a></li>
+    <li><a href="#contact" class="nav-cta">Get Started</a></li>
+  </ul>
+  <div class="hamburger" id="ham" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">India's Leading PR Agency</div>
+    <h1>Stories that<br><em>Shape</em> Public<br>Perception</h1>
+    <p class="hero-desc">
+      Savin Communication is an integrated PR &amp; creative agency partnering with brands, startups, and enterprises to build commanding narratives across media, digital, and culture.
+    </p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary">Start a Project →</a>
+      <a href="#services" class="btn-ghost">Explore Services</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-tile">
+      <div class="stat-num" data-target="250" data-suffix="+">0+</div>
+      <div class="stat-label">Media Associations</div>
+      <div class="stat-sub">National &amp; Global Outlets</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-num" data-target="100" data-suffix="K+">0K+</div>
+      <div class="stat-label">Press Releases</div>
+      <div class="stat-sub">Successfully Disseminated</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-num" data-target="2" data-suffix="B+">0B+</div>
+      <div class="stat-label">Content Reach</div>
+      <div class="stat-sub">Cumulative Impressions</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-num" data-target="8" data-suffix="+ Yrs">0</div>
+      <div class="stat-label">Years of Excellence</div>
+      <div class="stat-sub">Established 2017</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">Public Relations <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Video Production <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Influencer Marketing <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Web &amp; App Development <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Brand Strategy <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Content Solutions <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Reputation Management <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Social Media <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Public Relations <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Video Production <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Influencer Marketing <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Web &amp; App Development <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Brand Strategy <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Content Solutions <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Reputation Management <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Social Media <span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="section-eyebrow">What We Do</div>
+      <h2>Six Pillars of<br><em>Creative Power</em></h2>
+    </div>
+    <p class="section-desc">From press to pixels — we cover the full spectrum of brand communication with precision and strategy.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-num">01</div>
+      <div class="service-name">Public Relations</div>
+      <p class="service-desc">Strategic media placements, press release campaigns, and narrative building that puts your brand in front of 250+ media associations and reaches billions.</p>
+      <div class="service-tags"><span class="tag tag-o">Media Outreach</span><span class="tag tag-i">ORM</span><span class="tag tag-i">Crisis Comms</span></div>
+      <a href="#contact" class="service-link">Explore PR services</a>
+    </div>
+    <div class="service-card fade-up delay-1">
+      <div class="service-num">02</div>
+      <div class="service-name">Video Production</div>
+      <p class="service-desc">Cinematic brand films, social reels, event coverage, and product videos that capture attention and convert audiences into loyal advocates.</p>
+      <div class="service-tags"><span class="tag tag-o">Brand Films</span><span class="tag tag-i">Reels</span><span class="tag tag-i">Ad Films</span></div>
+      <a href="#contact" class="service-link">Explore Video services</a>
+    </div>
+    <div class="service-card fade-up delay-2">
+      <div class="service-num">03</div>
+      <div class="service-name">Influencer Marketing</div>
+      <p class="service-desc">Data-driven influencer identification, campaign management, and ROI tracking — connecting brands with the right voices across Instagram, YouTube, and beyond.</p>
+      <div class="service-tags"><span class="tag tag-o">Nano to Mega</span><span class="tag tag-i">Campaign Mgmt</span></div>
+      <a href="#contact" class="service-link">Explore Influencer services</a>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">04</div>
+      <div class="service-name">Web &amp; App Development</div>
+      <p class="service-desc">Custom-engineered websites and mobile applications with performance-first architecture, stunning UI/UX, and scalable backend systems for modern businesses.</p>
+      <div class="service-tags"><span class="tag tag-o">Web Apps</span><span class="tag tag-i">Mobile Apps</span><span class="tag tag-i">UI/UX Design</span></div>
+      <a href="#contact" class="service-link">Explore Dev services</a>
+    </div>
+    <div class="service-card fade-up delay-1">
+      <div class="service-num">05</div>
+      <div class="service-name">Branding &amp; Design</div>
+      <p class="service-desc">Complete brand identity systems — from logo and typography to brand guidelines and visual language — built to create lasting, memorable impressions in competitive markets.</p>
+      <div class="service-tags"><span class="tag tag-o">Identity</span><span class="tag tag-i">Guidelines</span><span class="tag tag-i">Visual Design</span></div>
+      <a href="#contact" class="service-link">Explore Branding services</a>
+    </div>
+    <div class="service-card fade-up delay-2">
+      <div class="service-num">06</div>
+      <div class="service-name">Content Solutions</div>
+      <p class="service-desc">SEO-optimised articles, thought leadership content, social media copy, and multimedia storytelling that builds authority and sustains engagement across every channel.</p>
+      <div class="service-tags"><span class="tag tag-o">SEO Content</span><span class="tag tag-i">Social Media</span><span class="tag tag-i">Copywriting</span></div>
+      <a href="#contact" class="service-link">Explore Content services</a>
+    </div>
+  </div>
+</section>
+
+<!-- NUMBERS -->
+<section id="numbers">
+  <div class="numbers-header">
+    <div>
+      <div class="section-eyebrow">Our Impact</div>
+      <h2>The Metrics That<br><em>Define Our Work</em></h2>
+    </div>
+    <p class="section-desc" style="color:rgba(255,255,255,0.6)">Seven years of consistent, measurable results for brands across every sector and scale.</p>
+  </div>
+  <div class="numbers-grid">
+    <div class="num-card fade-up">
+      <span class="big-num" data-count="250" data-suffix="+">0+</span>
+      <span class="num-label">Media Associations</span>
+      <span class="num-sub">National &amp; International Outlets</span>
+    </div>
+    <div class="num-card fade-up delay-1">
+      <span class="big-num" data-count="100" data-suffix="K+">0K+</span>
+      <span class="num-label">Press Releases Placed</span>
+      <span class="num-sub">In 7+ Years of Operation</span>
+    </div>
+    <div class="num-card fade-up delay-2">
+      <span class="big-num" data-count="2" data-suffix="B+">0B+</span>
+      <span class="num-label">Content Impressions</span>
+      <span class="num-sub">Cumulative Reach Across Platforms</span>
+    </div>
+    <div class="num-card fade-up delay-3">
+      <span class="big-num" data-count="500" data-suffix="+">0+</span>
+      <span class="num-label">Brands Served</span>
+      <span class="num-sub">Startups to Enterprise</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="section-eyebrow">Why Savin</div>
+  <h2>Built for Results,<br><em>Not Just Reports</em></h2>
+  <div class="why-grid">
+    <div class="why-visual fade-up">
+      <div class="why-chart-label">Client Performance Benchmarks</div>
+      <div class="why-chart-row"><div class="why-bar-label">Media Coverage</div><div class="why-bar-wrap"><div class="why-bar" style="width:92%"></div></div><div class="why-bar-val">92%</div></div>
+      <div class="why-chart-row"><div class="why-bar-label">Brand Visibility</div><div class="why-bar-wrap"><div class="why-bar" style="width:88%"></div></div><div class="why-bar-val">88%</div></div>
+      <div class="why-chart-row"><div class="why-bar-label">Influencer ROI</div><div class="why-bar-wrap"><div class="why-bar" style="width:85%"></div></div><div class="why-bar-val">85%</div></div>
+      <div class="why-chart-row"><div class="why-bar-label">ORM Improvement</div><div class="why-bar-wrap"><div class="why-bar" style="width:94%"></div></div><div class="why-bar-val">94%</div></div>
+      <div class="why-chart-row"><div class="why-bar-label">Client Retention</div><div class="why-bar-wrap"><div class="why-bar" style="width:96%"></div></div><div class="why-bar-val">96%</div></div>
+      <div class="why-bottom">
+        <div class="why-stat"><div class="val">100%</div><div class="lbl">Deadline Adherence</div></div>
+        <div class="why-stat"><div class="val">₹0</div><div class="lbl">Wasted Placements</div></div>
+      </div>
+    </div>
+    <div class="features-list">
+      <div class="feature-item fade-up"><div class="feature-num">01</div><div><div class="feature-title">Dedicated PR Manager</div><p class="feature-desc">Every client gets a personal PR strategist to manage their narrative, optimise budgets, and align communication with business objectives.</p></div></div>
+      <div class="feature-item fade-up delay-1"><div class="feature-num">02</div><div><div class="feature-title">Data-Driven Approach</div><p class="feature-desc">We don't guess — we measure. Every campaign is tracked for impressions, sentiment, traffic, and conversions with transparent reporting.</p></div></div>
+      <div class="feature-item fade-up delay-2"><div class="feature-num">03</div><div><div class="feature-title">Delivered on Time, Every Time</div><p class="feature-desc">Our agile workflows ensure your campaigns launch on schedule. We honour deadlines without compromise or excuses.</p></div></div>
+      <div class="feature-item fade-up delay-3"><div class="feature-num">04</div><div><div class="feature-title">Reputation Management</div><p class="feature-desc">Proactive ORM — monitoring, managing, and strengthening your digital presence across Google SERP, social platforms, and review ecosystems.</p></div></div>
+      <div class="feature-item fade-up delay-4"><div class="feature-num">05</div><div><div class="feature-title">Global-Standard Quality</div><p class="feature-desc">Every piece of content meets international editorial standards while being crafted to resonate with your specific target audience and industry.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div style="text-align:center">
+    <div class="section-eyebrow" style="justify-content:center">How It Works</div>
+    <h2>From Brief to <em>Breakthrough</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="step fade-up"><div class="step-dot">01</div><div class="step-name">Discovery</div><p class="step-desc">Deep-dive into your brand, goals, audience, and competitive landscape.</p></div>
+    <div class="step fade-up delay-1"><div class="step-dot">02</div><div class="step-name">Strategy</div><p class="step-desc">Custom PR &amp; marketing roadmap aligned to your business KPIs.</p></div>
+    <div class="step fade-up delay-2"><div class="step-dot">03</div><div class="step-name">Creation</div><p class="step-desc">Compelling content, visuals, and campaigns crafted for maximum impact.</p></div>
+    <div class="step fade-up delay-3"><div class="step-dot">04</div><div class="step-name">Distribution</div><p class="step-desc">Multi-channel rollout across media, influencers, and digital platforms.</p></div>
+    <div class="step fade-up delay-4"><div class="step-dot">05</div><div class="step-name">Measure</div><p class="step-desc">Real-time analytics, reporting, and optimisation for sustained growth.</p></div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section id="industries">
+  <div class="section-eyebrow">Industries We Serve</div>
+  <h2>Experience Across<br><em>Every Sector</em></h2>
+  <div class="industries-inner">
+    <div class="industry-tags">
+      <span class="ind-tag">Technology &amp; SaaS</span>
+      <span class="ind-tag">Healthcare &amp; Pharma</span>
+      <span class="ind-tag">D2C &amp; E-Commerce</span>
+      <span class="ind-tag">Finance &amp; Fintech</span>
+      <span class="ind-tag">Education &amp; EdTech</span>
+      <span class="ind-tag">Hospitality &amp; Travel</span>
+      <span class="ind-tag">Gaming &amp; Entertainment</span>
+      <span class="ind-tag">Real Estate</span>
+      <span class="ind-tag">Fashion &amp; Lifestyle</span>
+      <span class="ind-tag">Food &amp; Beverage</span>
+      <span class="ind-tag">Energy &amp; Sustainability</span>
+      <span class="ind-tag">AI &amp; Deep Tech</span>
+      <span class="ind-tag">Automotive</span>
+      <span class="ind-tag">Media &amp; Broadcasting</span>
+      <span class="ind-tag">B2B &amp; Professional Services</span>
+    </div>
+    <div class="industry-quote fade-up">
+      <blockquote>"In a world led by digital approaches, we provide powerful tools that speak to consumers and media alike — with networks spanning lifestyle, entertainment, and enterprise."</blockquote>
+      <cite>— Savin Communication, Our Story</cite>
+      <p>From D2C startups to enterprise conglomerates, our relevant experience working with influencers, renowned organisations, and consumer outlets is second to none.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-eyebrow">Get in Touch</div>
+  <h2>Ready to Build<br><em>Your Story?</em></h2>
+  <div class="contact-grid">
+
+    <!-- Left: Contact Info -->
+    <div class="contact-info">
+      <h3>Let's Create Something Extraordinary Together</h3>
+      <p>Whether you're a startup seeking your first media placement or an enterprise ready for a full-scale PR transformation — we are your strategic partner.</p>
+      <div class="contact-detail">
+        <div class="contact-icon">📍</div>
+        <div class="contact-text"><strong>Office</strong>1st Floor, B-92, Sector 63, Noida<br>Uttar Pradesh, India — 201301</div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-text"><strong>Email</strong><a href="mailto:business@savincommunication.com">business@savincommunication.com</a></div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">📞</div>
+        <div class="contact-text"><strong>Phone</strong>+91 72178 27243</div>
+      </div>
+      <div class="response-badge">
+        <div class="badge-label">Average Response Time</div>
+        <div class="badge-val">Under 2 Hours</div>
+        <div class="badge-sub">Mon–Sat, 10 am–7 pm IST</div>
+      </div>
+    </div>
+
+    <!-- Right: Contact Form -->
+    <div class="contact-form">
+
+      <!-- Error banner (shown if EmailJS send fails) -->
+      <div class="form-error-banner" id="formErrorBanner">
+        Something went wrong. Please try again or email us directly at
+        <strong>business@savincommunication.com</strong>
+      </div>
+
+      <!-- The Form -->
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name *</label>
+            <input type="text" id="firstName" name="first_name" placeholder="Aarav" autocomplete="given-name">
+            <div class="field-error" id="errFirstName">Please enter your first name.</div>
+          </div>
+          <div class="form-group">
+            <label for="lastName">Last Name *</label>
+            <input type="text" id="lastName" name="last_name" placeholder="Sharma" autocomplete="family-name">
+            <div class="field-error" id="errLastName">Please enter your last name.</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="workEmail">Work Email *</label>
+          <input type="email" id="workEmail" name="from_email" placeholder="aarav@company.com" autocomplete="email">
+          <div class="field-error" id="errEmail">Please enter a valid email address.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="company">Company / Brand *</label>
+          <input type="text" id="company" name="company" placeholder="Your Company Name" autocomplete="organization">
+          <div class="field-error" id="errCompany">Please enter your company or brand name.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="service">Service Interested In *</label>
+          <select id="service" name="service">
+            <option value="">Select a service...</option>
+            <option value="Public Relations">Public Relations</option>
+            <option value="Video Production">Video Production</option>
+            <option value="Influencer Marketing">Influencer Marketing</option>
+            <option value="Web & App Development">Web &amp; App Development</option>
+            <option value="Branding & Design">Branding &amp; Design</option>
+            <option value="Content Solutions">Content Solutions</option>
+            <option value="Full-Suite / Multiple Services">Full-Suite / Multiple Services</option>
+          </select>
+          <div class="field-error" id="errService">Please select a service.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Tell Us About Your Goals *</label>
+          <textarea id="message" name="message" rows="4" placeholder="Briefly describe what you're looking to achieve..."></textarea>
+          <div class="field-error" id="errMessage">Please tell us about your goals (at least 10 characters).</div>
+        </div>
+
+        <button type="submit" class="form-submit" id="submitBtn">
+          <span class="btn-text">Send Message →</span>
+          <span class="spinner"></span>
+        </button>
+      </form>
+
+      <!-- Success Overlay -->
+      <div class="form-success" id="formSuccess">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Message Sent!</div>
+        <p class="success-sub">
+          Thank you — we've received your enquiry and will get back to you within 2 hours
+          (Mon–Sat, 10 am–7 pm IST).
+        </p>
+        <button class="success-reset" onclick="resetForm()">Send Another Message</button>
+      </div>
+
+    </div><!-- /contact-form -->
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">Savin<span>.</span></a>
+      <p>An Integrated PR &amp; Creative Agency helping brands, startups, and enterprises build powerful narratives since 2017.</p>
+      <div class="footer-socials">
+        <a href="#">in</a><a href="#">tw</a><a href="#">ig</a><a href="#">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Public Relations</a></li>
+        <li><a href="#">Video Production</a></li>
+        <li><a href="#">Influencer Marketing</a></li>
+        <li><a href="#">Web &amp; App Development</a></li>
+        <li><a href="#">Branding &amp; Design</a></li>
+        <li><a href="#">Content Solutions</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Case Studies</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press Kit</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+        <li><a href="#">Refund Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2017–2026 Savin Communication Private Limited. All rights reserved.</p>
+    <div class="footer-badges">
+      <span class="footer-badge">Made in India</span>
+      <span class="footer-badge">ISO Certified</span>
+      <span class="footer-badge">DPIIT Recognised</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+  EmailJS SDK
+  ============================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+/* ============================================================
+   EMAILJS CONFIG — replace these three values before deploying
+   ============================================================
+   1. Go to https://www.emailjs.com → sign up (free)
+   2. Add Email Service → connect your Gmail / SMTP
+   3. Create Email Template with variables:
+        {{from_name}}  → sender's full name
+        {{from_email}} → sender's email
+        {{company}}    → company/brand name
+        {{service}}    → selected service
+        {{message}}    → message body
+      Set the template's "To" to: business@savincommunication.com
+   4. Copy your keys below:
+   ============================================================ */
+  const EMAILJS_PUBLIC_KEY  = 'uJQJyoCGdyVMTWYT2';   // Account → API Keys
+  const EMAILJS_SERVICE_ID  = 'service_juyqxr7';   // Email Services → Service ID
+  const EMAILJS_TEMPLATE_ID = 'template_gw9a64h';  // Email Templates → Template ID
+
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+/* ─── Scroll & nav ─── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+function animateCount(el) {
+  const target = parseInt(el.dataset.target || el.dataset.count || 0);
+  const suffix = el.dataset.suffix || '';
+  const dur = 1600, start = performance.now();
+  const run = now => {
+    const p = Math.min((now - start) / dur, 1);
+    el.textContent = Math.round(p * target) + suffix;
+    if (p < 1) requestAnimationFrame(run);
+  };
+  requestAnimationFrame(run);
+}
+const cObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { animateCount(e.target); cObs.unobserve(e.target); }
+  });
+}, { threshold: 0.4 });
+document.querySelectorAll('[data-target],[data-count]').forEach(el => cObs.observe(el));
+
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+});
+
+let menuOpen = false;
+function toggleMenu() {
+  menuOpen = !menuOpen;
+  const ul = document.querySelector('nav ul');
+  ul.style.cssText = menuOpen
+    ? 'display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:rgba(255,255,255,0.98);padding:2rem 6%;gap:1.5rem;border-bottom:1px solid #EDD9C9;z-index:199;box-shadow:0 8px 32px rgba(0,0,0,0.08)'
+    : 'display:none';
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+      if (menuOpen) toggleMenu();
+    }
+  });
+});
+
+/* ─── Form Validation helpers ─── */
+function showError(inputId, errorId) {
+  const input = document.getElementById(inputId);
+  const error = document.getElementById(errorId);
+  input.classList.add('error');
+  error.classList.add('show');
+}
+function clearError(inputId, errorId) {
+  const input = document.getElementById(inputId);
+  const error = document.getElementById(errorId);
+  input.classList.remove('error');
+  error.classList.remove('show');
+}
+function isValidEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+}
+
+/* Live clear errors on input */
+[
+  ['firstName', 'errFirstName'],
+  ['lastName',  'errLastName'],
+  ['workEmail', 'errEmail'],
+  ['company',   'errCompany'],
+  ['service',   'errService'],
+  ['message',   'errMessage'],
+].forEach(([inputId, errorId]) => {
+  document.getElementById(inputId).addEventListener('input', () => clearError(inputId, errorId));
+  document.getElementById(inputId).addEventListener('change', () => clearError(inputId, errorId));
+});
+
+function validateForm() {
+  let valid = true;
+
+  const firstName = document.getElementById('firstName').value.trim();
+  if (!firstName) { showError('firstName', 'errFirstName'); valid = false; }
+  else clearError('firstName', 'errFirstName');
+
+  const lastName = document.getElementById('lastName').value.trim();
+  if (!lastName) { showError('lastName', 'errLastName'); valid = false; }
+  else clearError('lastName', 'errLastName');
+
+  const email = document.getElementById('workEmail').value.trim();
+  if (!email || !isValidEmail(email)) { showError('workEmail', 'errEmail'); valid = false; }
+  else clearError('workEmail', 'errEmail');
+
+  const company = document.getElementById('company').value.trim();
+  if (!company) { showError('company', 'errCompany'); valid = false; }
+  else clearError('company', 'errCompany');
+
+  const service = document.getElementById('service').value;
+  if (!service) { showError('service', 'errService'); valid = false; }
+  else clearError('service', 'errService');
+
+  const message = document.getElementById('message').value.trim();
+  if (!message || message.length < 10) { showError('message', 'errMessage'); valid = false; }
+  else clearError('message', 'errMessage');
+
+  return valid;
+}
+
+/* ─── Form Submit ─── */
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  // Hide previous error banner
+  document.getElementById('formErrorBanner').classList.remove('show');
+
+  if (!validateForm()) return;
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName  = document.getElementById('lastName').value.trim();
+
+  const templateParams = {
+    from_name  : `${firstName} ${lastName}`,
+    from_email : document.getElementById('workEmail').value.trim(),
+    company    : document.getElementById('company').value.trim(),
+    service    : document.getElementById('service').value,
+    message    : document.getElementById('message').value.trim(),
+    to_email   : 'business@savincommunication.com',
+    reply_to   : document.getElementById('workEmail').value.trim(),
+  };
+
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+    // Show success overlay
+    document.getElementById('formSuccess').classList.add('show');
+  } catch (err) {
+    console.error('EmailJS error:', err);
+    document.getElementById('formErrorBanner').classList.add('show');
+    document.getElementById('formErrorBanner').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+  }
+});
+
+/* ─── Reset form after success ─── */
+function resetForm() {
+  document.getElementById('contactForm').reset();
+  document.getElementById('formSuccess').classList.remove('show');
+  document.getElementById('formErrorBanner').classList.remove('show');
+  // Clear any lingering error states
+  document.querySelectorAll('.field-error').forEach(el => el.classList.remove('show'));
+  document.querySelectorAll('input, textarea, select').forEach(el => el.classList.remove('error'));
+}
+</script>
+</body>
+</html>
