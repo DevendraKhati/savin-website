@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Platforms — Savin Communication</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFFFF;
+  --bg2:#FFF8F3;
+  --bg3:#FFF2E8;
+  --or:#F26B1D;
+  --or2:#E55A0C;
+  --or3:#FF8C42;
+  --or-lt:rgba(242,107,29,0.10);
+  --or-lt2:rgba(242,107,29,0.06);
+  --dk:#1A0F00;
+  --dk2:#2D1A00;
+  --mid:#7A5C3A;
+  --bd:rgba(242,107,29,0.15);
+  --bd2:rgba(26,15,0,0.08);
+  --txt:#1A0F00;
+  --txt2:#5A3D1C;
+  --shadow:0 2px 20px rgba(242,107,29,0.12);
+  --shadow2:0 8px 40px rgba(242,107,29,0.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(16px);border-bottom:1.5px solid var(--bd);padding:16px 52px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 20px rgba(242,107,29,0.07)}
+.nav-logo{font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:var(--dk);text-decoration:none;letter-spacing:-.3px}
+.nav-logo span{color:var(--or)}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;color:var(--mid);text-decoration:none;letter-spacing:.2px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--or)}
+.nav-cta{font-size:13px;font-weight:700;background:var(--or);color:#fff;padding:10px 22px;border-radius:6px;text-decoration:none;letter-spacing:.5px;text-transform:uppercase;box-shadow:0 4px 14px rgba(242,107,29,0.35);transition:background .2s,transform .15s}
+.nav-cta:hover{background:var(--or2);transform:translateY(-1px)}
+.admin-btn{font-size:13px;font-weight:600;background:transparent;color:var(--or);border:1.5px solid var(--or);padding:9px 18px;border-radius:6px;cursor:pointer;letter-spacing:.3px;transition:all .2s}
+.admin-btn:hover{background:var(--or-lt)}
+
+/* HERO */
+.hero{position:relative;background:linear-gradient(135deg,#FFF8F3 0%,#FFF2E8 50%,#FFF8F3 100%);padding:88px 52px 80px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-content{position:relative;z-index:1;max-width:820px}
+.hero-eyebrow{font-size:12px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.hero-eyebrow::before{content:'';width:36px;height:2px;background:var(--or);flex-shrink:0;border-radius:2px}
+.hero-headline{font-family:'Fraunces',serif;font-size:58px;font-weight:900;line-height:1.06;color:var(--dk);margin-bottom:22px}
+.hero-headline em{color:var(--or);font-style:italic}
+.hero-divider{width:60px;height:3px;background:linear-gradient(90deg,var(--or),var(--or3));margin-bottom:26px;border-radius:2px}
+.hero-desc{font-size:18px;color:var(--txt2);line-height:1.85;font-weight:400;max-width:680px;margin-bottom:44px}
+.hero-desc strong{color:var(--dk);font-weight:700}
+.hero-stats{display:flex;gap:44px;flex-wrap:wrap}
+.hero-stat-val{font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:var(--dk);line-height:1}
+.hero-stat-val span{color:var(--or)}
+.hero-stat-lbl{font-size:13px;color:var(--mid);margin-top:6px;letter-spacing:.4px;font-weight:500}
+
+/* TICKER */
+.ticker{background:var(--or);overflow:hidden;padding:12px 0}
+.ticker-inner{display:flex;width:max-content;animation:marquee 32s linear infinite}
+.ticker-item{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#fff;white-space:nowrap;padding:0 28px}
+.ticker-item::after{content:'·';margin-left:28px;opacity:.7}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* FILTER BAR */
+.filter-section{background:var(--bg);border-bottom:1.5px solid var(--bd2);padding:28px 52px;position:sticky;top:61px;z-index:90;box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+.filter-top{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+.search-wrap{position:relative;flex:1;max-width:400px}
+.search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none}
+.search-input{width:100%;background:var(--bg2);border:1.5px solid var(--bd2);border-radius:8px;padding:12px 14px 12px 42px;font-size:14px;font-family:'Sora',sans-serif;color:var(--txt);outline:none;transition:border .2s;font-weight:500}
+.search-input::placeholder{color:var(--mid);font-weight:400}
+.search-input:focus{border-color:var(--or);background:#fff;box-shadow:0 0 0 3px var(--or-lt)}
+.filter-right{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.sort-select{background:var(--bg2);border:1.5px solid var(--bd2);border-radius:8px;padding:11px 14px;font-size:13px;font-family:'Sora',sans-serif;color:var(--txt2);cursor:pointer;outline:none;font-weight:500}
+.sort-select:focus{border-color:var(--or)}
+.results-count{font-size:13px;color:var(--mid);font-weight:500}
+.results-count span{color:var(--or);font-weight:700}
+.cat-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.cat-btn{font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;border:1.5px solid var(--bd2);color:var(--mid);background:#fff;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Sora',sans-serif}
+.cat-btn:hover{border-color:var(--or);color:var(--or);background:var(--or-lt2)}
+.cat-btn.active{border-color:var(--or);color:#fff;background:var(--or);box-shadow:0 2px 10px rgba(242,107,29,0.3)}
+.cat-count{display:inline-block;font-size:10px;margin-left:5px;opacity:.75}
+
+/* GRID */
+.platforms-section{padding:40px 52px 72px;background:var(--bg2)}
+.platforms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+
+/* CARD */
+.card{background:#fff;border:1.5px solid var(--bd2);border-radius:12px;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.card:hover{border-color:var(--or);transform:translateY(-3px);box-shadow:var(--shadow2)}
+.card-header{padding:20px 22px 16px;border-bottom:1px solid var(--bd2);display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.card-domain{font-size:15px;font-weight:700;color:var(--dk);word-break:break-word;line-height:1.35;text-decoration:none;transition:color .15s}
+.card-domain:hover{color:var(--or)}
+.card-lang-badge{font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;flex-shrink:0;white-space:nowrap;letter-spacing:.3px}
+.lang-en{background:rgba(56,140,255,0.1);border:1px solid rgba(56,140,255,0.25);color:#2E86FF}
+.lang-hi{background:rgba(242,107,29,0.1);border:1px solid rgba(242,107,29,0.25);color:var(--or)}
+.lang-regional{background:rgba(30,185,105,0.1);border:1px solid rgba(30,185,105,0.25);color:#0DA65A}
+.card-cat{font-size:12px;color:var(--mid);padding:0 22px 16px;font-weight:500;letter-spacing:.2px}
+.card-metrics{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--bd2)}
+.metric{padding:14px 10px;text-align:center;border-right:1px solid var(--bd2)}
+.metric:last-child{border-right:none}
+.metric-val{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--dk);line-height:1;margin-bottom:5px}
+.metric-val.gold{color:var(--or)}
+.metric-lbl{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mid);line-height:1.4;font-weight:600}
+.card-footer{padding:14px 22px;border-top:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.card-rate{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--or)}
+.card-rate small{font-family:'Sora',sans-serif;font-size:11px;color:var(--mid);font-weight:500;margin-left:3px}
+.card-link-type{font-size:10px;padding:4px 10px;border-radius:20px;font-weight:700}
+.lt-do{background:rgba(30,185,105,0.1);border:1px solid rgba(30,185,105,0.25);color:#0DA65A}
+.lt-no{background:rgba(242,107,29,0.08);border:1px solid rgba(242,107,29,0.2);color:var(--or)}
+.lt-none{background:rgba(90,61,28,0.08);border:1px solid rgba(90,61,28,0.15);color:var(--mid)}
+.da-bar{height:4px;background:rgba(242,107,29,0.1);margin:0 22px 18px;border-radius:4px;overflow:hidden}
+.da-bar-fill{height:100%;background:linear-gradient(90deg,var(--or),var(--or3));border-radius:4px;transition:width .8s ease}
+
+/* PURCHASE BUTTON */
+.card-purchase{padding:14px 22px 18px;display:flex;gap:10px}
+.btn-buy{flex:1;background:var(--or);color:#fff;border:none;border-radius:8px;padding:11px 16px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.4px;transition:all .2s;box-shadow:0 3px 12px rgba(242,107,29,0.3)}
+.btn-buy:hover{background:var(--or2);transform:translateY(-1px);box-shadow:0 5px 18px rgba(242,107,29,0.4)}
+.btn-enquire{flex:0 0 auto;background:#fff;color:var(--or);border:1.5px solid var(--or);border-radius:8px;padding:10px 14px;font-family:'Sora',sans-serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:all .2s;white-space:nowrap}
+.btn-enquire:hover{background:var(--or-lt)}
+
+/* CART */
+.cart-bar{position:fixed;bottom:24px;right:24px;z-index:200;display:none}
+.cart-bar.active{display:block}
+.cart-pill{background:var(--or);color:#fff;padding:14px 22px;border-radius:30px;box-shadow:0 8px 28px rgba(242,107,29,0.45);font-family:'Sora',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px;transition:transform .2s}
+.cart-pill:hover{transform:scale(1.04)}
+.cart-badge{background:#fff;color:var(--or);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+
+/* PURCHASE MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(26,15,0,0.65);backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.18)}
+.modal-head{padding:28px 32px 24px;border-bottom:1.5px solid var(--bd2);display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-family:'Fraunces',serif;font-size:24px;font-weight:900;color:var(--dk)}
+.modal-title span{color:var(--or)}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--mid);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{padding:24px 32px}
+.cart-items{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.cart-item{display:flex;align-items:center;gap:14px;padding:14px;background:var(--bg2);border-radius:10px;border:1px solid var(--bd2)}
+.ci-info{flex:1}
+.ci-domain{font-size:14px;font-weight:700;color:var(--dk)}
+.ci-cat{font-size:12px;color:var(--mid);margin-top:2px;font-weight:500}
+.ci-price{font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:var(--or);white-space:nowrap}
+.ci-remove{background:none;border:none;cursor:pointer;color:var(--mid);font-size:18px;padding:4px;border-radius:6px;transition:all .15s}
+.ci-remove:hover{color:#e53e3e;background:rgba(229,62,62,0.08)}
+.cart-total{padding:16px;background:var(--bg3);border-radius:10px;border:1.5px solid var(--or);display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.cart-total-lbl{font-size:14px;font-weight:600;color:var(--dk)}
+.cart-total-val{font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:var(--or)}
+.checkout-form{display:flex;flex-direction:column;gap:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:12px;font-weight:700;color:var(--txt2);letter-spacing:.5px;text-transform:uppercase}
+.form-input{padding:11px 14px;border:1.5px solid var(--bd2);border-radius:8px;font-family:'Sora',sans-serif;font-size:14px;color:var(--txt);outline:none;transition:border .2s;background:#fff}
+.form-input:focus{border-color:var(--or);box-shadow:0 0 0 3px var(--or-lt)}
+.form-textarea{padding:11px 14px;border:1.5px solid var(--bd2);border-radius:8px;font-family:'Sora',sans-serif;font-size:14px;color:var(--txt);outline:none;transition:border .2s;resize:vertical;min-height:80px}
+.form-textarea:focus{border-color:var(--or);box-shadow:0 0 0 3px var(--or-lt)}
+.submit-order{width:100%;background:var(--or);color:#fff;border:none;border-radius:10px;padding:15px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px;box-shadow:0 4px 18px rgba(242,107,29,0.35);transition:all .2s;margin-top:4px}
+.submit-order:hover{background:var(--or2);transform:translateY(-1px);box-shadow:0 6px 24px rgba(242,107,29,0.45)}
+.empty-cart{text-align:center;padding:40px 20px;color:var(--mid)}
+.empty-cart svg{margin-bottom:16px;opacity:.4}
+.empty-cart p{font-size:15px;font-weight:500}
+
+/* NO RESULTS */
+.no-results{grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--mid)}
+.no-results h3{font-family:'Fraunces',serif;font-size:24px;color:var(--dk);margin-bottom:8px;margin-top:16px}
+
+/* CTA SECTION */
+.cta-section{position:relative;background:var(--dk);padding:88px 52px;text-align:center;overflow:hidden}
+.cta-section-bg{position:absolute;inset:0;pointer-events:none;opacity:.07}
+.cta-head{font-family:'Fraunces',serif;font-size:46px;font-weight:900;color:#fff;margin-bottom:16px}
+.cta-head em{color:var(--or3);font-style:italic}
+.cta-sub{font-size:17px;color:rgba(255,255,255,0.65);margin-bottom:40px;line-height:1.75;font-weight:400}
+.cta-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.btn-primary{background:var(--or);color:#fff;font-size:14px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:16px 38px;border-radius:8px;text-decoration:none;border:none;cursor:pointer;box-shadow:0 6px 22px rgba(242,107,29,0.45);transition:all .2s}
+.btn-primary:hover{background:var(--or3);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:#fff;font-size:14px;font-weight:600;padding:15px 30px;border-radius:8px;text-decoration:none;border:1.5px solid rgba(255,255,255,0.3);transition:all .2s}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,0.07)}
+
+/* FOOTER */
+footer{background:var(--dk2);border-top:1px solid rgba(255,255,255,0.07);padding:28px 52px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.footer-logo{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:#fff}
+.footer-logo span{color:var(--or)}
+.footer-sub{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.footer-copy{font-size:13px;color:rgba(255,255,255,0.4);font-weight:400}
+
+/* ADMIN PANEL */
+.admin-overlay{position:fixed;inset:0;background:rgba(26,15,0,0.7);backdrop-filter:blur(6px);z-index:400;display:none}
+.admin-overlay.open{display:block}
+.admin-panel{position:fixed;top:0;right:0;width:740px;max-width:100vw;height:100vh;background:#fff;z-index:401;box-shadow:-8px 0 60px rgba(0,0,0,0.15);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(0.16,1,0.3,1)}
+.admin-panel.open{transform:translateX(0)}
+.admin-head{padding:24px 28px;border-bottom:1.5px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--bg2)}
+.admin-title{font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:var(--dk)}
+.admin-title span{color:var(--or)}
+.admin-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--mid);padding:6px;border-radius:8px;transition:background .15s}
+.admin-close:hover{background:var(--bd2)}
+.admin-tabs{display:flex;gap:0;border-bottom:1.5px solid var(--bd2);flex-shrink:0;padding:0 28px}
+.admin-tab{padding:12px 20px;font-size:13px;font-weight:700;color:var(--mid);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .2s;white-space:nowrap;letter-spacing:.2px}
+.admin-tab.active{color:var(--or);border-bottom-color:var(--or)}
+.admin-content{flex:1;overflow-y:auto;padding:24px 28px}
+
+/* ADMIN TABLE */
+.admin-table-wrap{overflow-x:auto;border:1.5px solid var(--bd2);border-radius:10px;margin-bottom:24px}
+.admin-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.admin-table th{padding:11px 14px;background:var(--bg2);font-weight:700;color:var(--txt2);text-align:left;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:1.5px solid var(--bd2);white-space:nowrap}
+.admin-table td{padding:10px 14px;border-bottom:1px solid var(--bd2);color:var(--txt);vertical-align:middle}
+.admin-table tr:last-child td{border-bottom:none}
+.admin-table tr:hover td{background:var(--or-lt2)}
+.tbl-domain{font-weight:700;color:var(--or);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl-actions{display:flex;gap:6px}
+.tbl-edit{background:var(--or-lt);color:var(--or);border:1px solid var(--or);border-radius:5px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;transition:all .15s}
+.tbl-edit:hover{background:var(--or);color:#fff}
+.tbl-del{background:rgba(229,62,62,0.08);color:#e53e3e;border:1px solid rgba(229,62,62,0.2);border-radius:5px;padding:4px 8px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;transition:all .15s}
+.tbl-del:hover{background:#e53e3e;color:#fff}
+
+/* ADMIN FORM */
+.admin-form{background:var(--bg2);border:1.5px solid var(--bd2);border-radius:12px;padding:24px;margin-bottom:24px}
+.admin-form-title{font-size:16px;font-weight:800;color:var(--dk);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.admin-form-title span{font-size:12px;color:var(--mid);font-weight:500}
+.admin-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.admin-form-row{grid-column:1/-1}
+.af-label{font-size:11px;font-weight:700;color:var(--txt2);letter-spacing:.6px;text-transform:uppercase;margin-bottom:5px}
+.af-input{width:100%;padding:10px 13px;border:1.5px solid var(--bd2);border-radius:7px;font-family:'Sora',sans-serif;font-size:13px;color:var(--txt);outline:none;transition:border .2s;background:#fff}
+.af-input:focus{border-color:var(--or);box-shadow:0 0 0 3px var(--or-lt)}
+.af-select{width:100%;padding:10px 13px;border:1.5px solid var(--bd2);border-radius:7px;font-family:'Sora',sans-serif;font-size:13px;color:var(--txt);outline:none;background:#fff;cursor:pointer}
+.af-select:focus{border-color:var(--or)}
+.admin-save{background:var(--or);color:#fff;border:none;border-radius:8px;padding:12px 28px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(242,107,29,0.3);transition:all .2s}
+.admin-save:hover{background:var(--or2);transform:translateY(-1px)}
+.admin-cancel{background:#fff;color:var(--mid);border:1.5px solid var(--bd2);border-radius:8px;padding:11px 20px;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;cursor:pointer;margin-left:10px;transition:all .15s}
+.admin-cancel:hover{border-color:var(--or);color:var(--or)}
+.admin-search{width:100%;padding:10px 14px;border:1.5px solid var(--bd2);border-radius:8px;font-family:'Sora',sans-serif;font-size:13px;color:var(--txt);outline:none;margin-bottom:16px;background:#fff}
+.admin-search:focus{border-color:var(--or);box-shadow:0 0 0 3px var(--or-lt)}
+.add-new-btn{background:var(--or);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:18px;display:inline-flex;align-items:center;gap:7px;box-shadow:0 3px 12px rgba(242,107,29,0.3);transition:all .2s}
+.add-new-btn:hover{background:var(--or2)}
+.orders-list{display:flex;flex-direction:column;gap:12px}
+.order-card{background:#fff;border:1.5px solid var(--bd2);border-radius:10px;padding:18px 20px}
+.order-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.order-id{font-size:12px;font-weight:700;color:var(--or);letter-spacing:.5px}
+.order-date{font-size:11px;color:var(--mid)}
+.order-name{font-size:15px;font-weight:700;color:var(--dk);margin-bottom:3px}
+.order-email{font-size:12px;color:var(--mid);margin-bottom:10px}
+.order-pubs{font-size:12px;color:var(--txt2);line-height:1.7;border-top:1px solid var(--bd2);padding-top:10px}
+.order-total{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--or);margin-top:8px}
+.order-status{font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px}
+.os-new{background:rgba(242,107,29,0.12);color:var(--or);border:1px solid rgba(242,107,29,0.25)}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:24px}
+.stat-card{background:#fff;border:1.5px solid var(--bd2);border-radius:10px;padding:20px;text-align:center}
+.stat-card-val{font-family:'Fraunces',serif;font-size:30px;font-weight:900;color:var(--or);line-height:1}
+.stat-card-lbl{font-size:12px;color:var(--mid);margin-top:5px;font-weight:600;letter-spacing:.3px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dk);color:#fff;padding:12px 24px;border-radius:8px;font-family:'Sora',sans-serif;font-size:14px;font-weight:600;z-index:500;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+  .hero{padding:56px 20px 52px}
+  .hero-headline{font-size:36px}
+  .filter-section{padding:20px;top:57px}
+  .platforms-section{padding:28px 20px 48px}
+  .cta-section{padding:56px 20px}
+  .cta-head{font-size:30px}
+  footer{padding:20px;flex-direction:column;text-align:center}
+  .admin-panel{width:100vw}
+  .admin-form-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.card{animation:fadeUp .35s ease both}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="https://savincommunication.com" class="nav-logo">Savin<span>.</span></a>
+  <div class="nav-links">
+    <a href="https://savincommunication.com/#services">Services</a>
+    <a href="https://savincommunication.com/#numbers">Impact</a>
+    <a href="#platforms">Platforms</a>
+    <a href="savin_admin.html" class="admin-btn" style="text-decoration:none">⚙ Admin</a>
+    <a href="https://savincommunication.com/#contact" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="hero-bg" viewBox="0 0 1400 480" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="1100" cy="240" r="280" fill="none" stroke="#F26B1D" stroke-width="0.5" stroke-dasharray="3,14" opacity="0.15"/>
+    <circle cx="1100" cy="240" r="190" fill="none" stroke="#F26B1D" stroke-width="0.7" stroke-dasharray="5,9" opacity="0.18"/>
+    <circle cx="1100" cy="240" r="110" fill="none" stroke="#F26B1D" stroke-width="1" stroke-dasharray="4,6" opacity="0.25"/>
+    <line x1="1100" y1="240" x2="1210" y2="240" stroke="#F26B1D" stroke-width="1" opacity="0.25"/>
+    <line x1="1100" y1="240" x2="1155" y2="335" stroke="#F26B1D" stroke-width="1" opacity="0.25"/>
+    <line x1="1100" y1="240" x2="1045" y2="335" stroke="#F26B1D" stroke-width="1" opacity="0.25"/>
+    <line x1="1100" y1="240" x2="990" y2="240" stroke="#F26B1D" stroke-width="1" opacity="0.25"/>
+    <line x1="1100" y1="240" x2="1045" y2="145" stroke="#F26B1D" stroke-width="1" opacity="0.25"/>
+    <line x1="1100" y1="240" x2="1155" y2="145" stroke="#F26B1D" stroke-width="1" opacity="0.25"/>
+    <circle cx="1210" cy="240" r="8" fill="#F26B1D" opacity="0.6"/>
+    <circle cx="1155" cy="335" r="8" fill="#F26B1D" opacity="0.6"/>
+    <circle cx="1045" cy="335" r="8" fill="#F26B1D" opacity="0.6"/>
+    <circle cx="990"  cy="240" r="8" fill="#F26B1D" opacity="0.6"/>
+    <circle cx="1045" cy="145" r="8" fill="#F26B1D" opacity="0.6"/>
+    <circle cx="1155" cy="145" r="8" fill="#F26B1D" opacity="0.6"/>
+    <polygon points="1100,220 1120,240 1100,260 1080,240" fill="#F26B1D" opacity="0.5"/>
+  </svg>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Media Platform Network</div>
+    <h1 class="hero-headline">India's Most Expansive<br><em>Digital PR Network</em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">One campaign. <strong>200+ premium publications.</strong> From <strong>Hindustan Times</strong> and <strong>Times of India</strong> to niche vertical outlets — we place your brand where your audience already reads, in every language they speak.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-val" id="stat-total">200<span>+</span></div>
+        <div class="hero-stat-lbl">Total Publications</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">15<span>+</span></div>
+        <div class="hero-stat-lbl">Languages</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">2<span>B+</span></div>
+        <div class="hero-stat-lbl">Cumulative Reach</div>
+      </div>
+      <div>
+        <div class="hero-stat-val">12<span>+</span></div>
+        <div class="hero-stat-lbl">Content Verticals</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="ticker-inner"></div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-section" id="platforms">
+  <div class="filter-top">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="6.5" cy="6.5" r="5" stroke="#7A5C3A" stroke-width="1.5"/>
+        <line x1="10.5" y1="10.5" x2="14" y2="14" stroke="#7A5C3A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <input class="search-input" type="text" id="search" placeholder="Search publications, categories, languages…" oninput="filterCards()">
+    </div>
+    <div class="filter-right">
+      <select class="sort-select" id="sort-by" onchange="filterCards()">
+        <option value="da">Sort: Domain Authority</option>
+        <option value="traffic">Sort: Traffic</option>
+        <option value="rate">Sort: Rate (Low–High)</option>
+      </select>
+      <div class="results-count">Showing <span id="count-display">0</span> publications</div>
+    </div>
+  </div>
+  <div class="cat-filters" id="cat-filters"></div>
+</div>
+
+<!-- GRID -->
+<section class="platforms-section">
+  <div class="platforms-grid" id="grid"></div>
+</section>
+
+<!-- CART FLOATING BUTTON -->
+<div class="cart-bar" id="cart-bar">
+  <div class="cart-pill" onclick="openCart()">
+    <span>🛒 View Cart</span>
+    <div class="cart-badge" id="cart-badge">0</div>
+  </div>
+</div>
+
+<!-- PURCHASE / CART MODAL -->
+<div class="modal-overlay" id="cart-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Your <span>Purchase</span></div>
+      <button class="modal-close" onclick="closeCart()">✕</button>
+    </div>
+    <div class="modal-body" id="cart-modal-body"></div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <svg class="cta-section-bg" viewBox="0 0 1400 400" preserveAspectRatio="xMidYMid slice">
+    <path d="M700,400 a180,180 0 0,1-360,0 a180,180 0 0,1 360,0" fill="none" stroke="#F26B1D" stroke-width="1.5"/>
+    <path d="M700,400 a300,300 0 0,1-600,0 a300,300 0 0,1 600,0" fill="none" stroke="#F26B1D" stroke-width="1"/>
+    <path d="M700,400 a420,420 0 0,1-840,0 a420,420 0 0,1 840,0" fill="none" stroke="#F26B1D" stroke-width=".7"/>
+  </svg>
+  <div style="position:relative;z-index:1">
+    <div style="font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--or3);margin-bottom:18px">Start Today</div>
+    <h2 class="cta-head">Place Your Brand Across<br><em>200+ Publications</em></h2>
+    <p class="cta-sub">Targeted PR campaigns starting at ₹7,500 per article.<br>One invoice. One relationship. Maximum reach.</p>
+    <div class="cta-btns">
+      <a href="https://savincommunication.com/#contact" class="btn-primary">Get a Custom Proposal</a>
+      <a href="https://wa.me/message/QVPKNBQ7GQTUK1" class="btn-outline">Chat on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Savin<span>.</span></div>
+    <div class="footer-sub">Integrated PR &amp; Creative Agency</div>
+  </div>
+  <div class="footer-copy">© 2017–2026 Savin Communication Private Limited</div>
+  <a href="https://savincommunication.com" style="font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none;font-weight:400">savincommunication.com</a>
+</footer>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+let RAW = [
+  {url:"https://www.hindustantimes.com/",lang:"English",cat:"News, Lifestyle & Entertainment",da:93,traffic:128.9,rate:54900,links:"No Follow"},
+  {url:"https://tech.hindustantimes.com/",lang:"English",cat:"Technology",da:93,traffic:10.3,rate:42700,links:"No Follow"},
+  {url:"https://kannada.hindustantimes.com/",lang:"Kannada",cat:"News, Lifestyle & Entertainment",da:93,traffic:1.4,rate:42700,links:"No Follow"},
+  {url:"https://bangla.hindustantimes.com/",lang:"Bengali",cat:"News, Lifestyle & Entertainment",da:93,traffic:2.8,rate:42700,links:"No Follow"},
+  {url:"https://tamil.hindustantimes.com/",lang:"Tamil",cat:"News, Lifestyle & Entertainment",da:93,traffic:1.7,rate:42700,links:"No Follow"},
+  {url:"https://telugu.hindustantimes.com/",lang:"Telugu",cat:"News, Lifestyle & Entertainment",da:93,traffic:1.3,rate:42700,links:"No Follow"},
+  {url:"https://marathi.hindustantimes.com/",lang:"Marathi",cat:"News, Lifestyle & Entertainment",da:93,traffic:0.2,rate:42700,links:"No Follow"},
+  {url:"https://auto.hindustantimes.com/",lang:"English",cat:"Automotive",da:93,traffic:4.8,rate:42700,links:"No Follow"},
+  {url:"https://www.livemint.com/",lang:"English",cat:"Finance & Business",da:91,traffic:56.9,rate:75640,links:"No Follow"},
+  {url:"https://www.deccanherald.com/",lang:"English",cat:"General News",da:83,traffic:14.3,rate:15860,links:"No Follow"},
+  {url:"https://www.deccanchronicle.com",lang:"English",cat:"General News",da:83,traffic:2.0,rate:22570,links:"Do Follow"},
+  {url:"https://english.newsnationtv.com/",lang:"English",cat:"General News",da:64,traffic:0.4,rate:9150,links:"No Follow"},
+  {url:"https://www.freepressjournal.in/",lang:"English",cat:"General News",da:80,traffic:7.2,rate:12200,links:"No Follow"},
+  {url:"https://zeenews.india.com/",lang:"English",cat:"News, Lifestyle & Entertainment",da:90,traffic:36.6,rate:18300,links:"Do Follow"},
+  {url:"https://zeenews.india.com/hindi",lang:"Hindi",cat:"News, Lifestyle & Entertainment",da:90,traffic:36.6,rate:18300,links:"No Follow"},
+  {url:"https://zeenews.india.com/marathi/",lang:"Marathi",cat:"News, Lifestyle & Entertainment",da:90,traffic:36.6,rate:18300,links:"No Follow"},
+  {url:"https://www.techlusive.in/",lang:"English",cat:"Technology",da:78,traffic:0.7,rate:18300,links:"No Follow"},
+  {url:"https://www.apnnews.com/",lang:"English",cat:"General News",da:55,traffic:0.1,rate:6100,links:"Do Follow"},
+  {url:"https://m.dailyhunt.in/",lang:"English",cat:"General News",da:61,traffic:21.5,rate:2440,links:"No Follow"},
+  {url:"https://www.dnaindia.com/",lang:"English",cat:"General News",da:88,traffic:21.0,rate:18300,links:"Do Follow"},
+  {url:"https://www.mid-day.com/",lang:"English",cat:"Entertainment",da:85,traffic:7.4,rate:11590,links:"No Follow"},
+  {url:"https://www.zeebiz.com/",lang:"English",cat:"Finance & Business",da:62,traffic:12.0,rate:18300,links:"No Follow"},
+  {url:"https://www.india.com/",lang:"English",cat:"General News",da:90,traffic:124.6,rate:18300,links:"No Follow"},
+  {url:"https://www.bollywoodlife.com/",lang:"English",cat:"Entertainment",da:82,traffic:12.3,rate:18300,links:"No Follow"},
+  {url:"https://theprint.in/",lang:"English",cat:"General News",da:79,traffic:9.9,rate:15250,links:"No Follow"},
+  {url:"https://hindi.theprint.in/",lang:"Hindi",cat:"General News",da:79,traffic:0.4,rate:15250,links:"No Follow"},
+  {url:"https://www.thehindu.com/",lang:"English",cat:"General News",da:91,traffic:39.3,rate:36600,links:"No Follow"},
+  {url:"https://www.hindutamil.in/",lang:"Tamil",cat:"General News",da:49,traffic:10.5,rate:36600,links:"No Follow"},
+  {url:"https://sportstar.thehindu.com/",lang:"English",cat:"Sports",da:91,traffic:2.9,rate:36600,links:"No Follow"},
+  {url:"https://www.tellychakkar.com/",lang:"English",cat:"Entertainment",da:56,traffic:4.2,rate:18300,links:"Do Follow"},
+  {url:"https://www.indiantelevision.com/",lang:"English",cat:"B2B News",da:56,traffic:0.1,rate:15860,links:"Do Follow"},
+  {url:"https://www.adgully.com/",lang:"English",cat:"B2B News",da:55,traffic:0.2,rate:12200,links:"Do Follow"},
+  {url:"https://aninews.in/",lang:"English",cat:"General News",da:77,traffic:1.9,rate:12200,links:"Do Follow"},
+  {url:"https://www.oneindia.com",lang:"English",cat:"News, Lifestyle & Entertainment",da:84,traffic:34.7,rate:11590,links:"No Follow"},
+  {url:"https://www.business-standard.com/",lang:"English",cat:"Finance & Business",da:89,traffic:8.9,rate:25620,links:"No Follow"},
+  {url:"https://www.outlookindia.com/",lang:"English",cat:"Finance & Business",da:89,traffic:23.5,rate:21960,links:"No Follow"},
+  {url:"https://www.thehindubusinessline.com/",lang:"English",cat:"Finance & Business",da:86,traffic:5.5,rate:36600,links:"No Follow"},
+  {url:"https://www.filmibeat.com/",lang:"English",cat:"Entertainment",da:78,traffic:17.7,rate:7930,links:"No Follow"},
+  {url:"https://www.khaleejtimes.com/",lang:"English",cat:"General News",da:87,traffic:15.7,rate:42700,links:"Do Follow"},
+  {url:"https://www.indiatoday.in/",lang:"English",cat:"General News",da:90,traffic:82.0,rate:35380,links:"No Follow"},
+  {url:"https://www.businesstoday.in/",lang:"English",cat:"Finance & Business",da:78,traffic:16.8,rate:54900,links:"No Follow"},
+  {url:"https://www.tribuneindia.com/",lang:"English",cat:"General News",da:82,traffic:9.1,rate:7930,links:"No Follow"},
+  {url:"https://www.ottplay.com/",lang:"English",cat:"Entertainment",da:34,traffic:4.6,rate:30500,links:"No Follow"},
+  {url:"https://www.healthshots.com/",lang:"English",cat:"Health & Wellness",da:54,traffic:5.1,rate:61000,links:"No Follow"},
+  {url:"https://www.thehealthsite.com/",lang:"English",cat:"Health & Wellness",da:76,traffic:5.8,rate:22570,links:"No Follow"},
+  {url:"https://www.exchange4media.com/",lang:"English",cat:"B2B News",da:68,traffic:0.4,rate:142740,links:"No Follow"},
+  {url:"https://www.afaqs.com/",lang:"English",cat:"B2B News",da:70,traffic:0.6,rate:24400,links:"No Follow"},
+  {url:"https://timesofindia.com",lang:"English",cat:"News, Lifestyle & Entertainment",da:84,traffic:206.0,rate:91500,links:"No Follow"},
+  {url:"https://maharashtratimes.com/",lang:"Marathi",cat:"General News",da:48,traffic:40.2,rate:91500,links:"No Follow"},
+  {url:"https://navbharattimes.indiatimes.com/",lang:"Hindi",cat:"General News",da:94,traffic:51.2,rate:79300,links:"No Follow"},
+  {url:"https://vijaykarnataka.com/",lang:"Kannada",cat:"General News",da:43,traffic:4.1,rate:79300,links:"No Follow"},
+  {url:"https://malayalam.samayam.com/",lang:"Malayalam",cat:"General News",da:49,traffic:3.0,rate:91500,links:"No Follow"},
+  {url:"https://telugu.samayam.com/",lang:"Telugu",cat:"General News",da:49,traffic:14.5,rate:91500,links:"No Follow"},
+  {url:"https://tamil.samayam.com/",lang:"Tamil",cat:"General News",da:49,traffic:8.3,rate:91500,links:"No Follow"},
+  {url:"https://www.iamgujarat.com/",lang:"Gujarati",cat:"General News",da:36,traffic:0.7,rate:79300,links:"No Follow"},
+  {url:"https://m.economictimes.com/",lang:"English",cat:"Finance & Business",da:77,traffic:64.8,rate:91500,links:"No Follow"},
+  {url:"https://www.gadgetsnow.com/",lang:"English",cat:"Technology",da:81,traffic:8.8,rate:91500,links:"No Follow"},
+  {url:"https://www.moneycontrol.com/",lang:"English",cat:"Finance & Business",da:89,traffic:81.9,rate:91500,links:"No Follow"},
+  {url:"https://www.newindianexpress.com/",lang:"English",cat:"General News",da:86,traffic:7.7,rate:61000,links:"No Follow"},
+  {url:"https://news.abplive.com/",lang:"English",cat:"General News",da:65,traffic:10.9,rate:13420,links:"No Follow"},
+  {url:"https://www.abplive.com/",lang:"Hindi",cat:"General News",da:65,traffic:106.3,rate:12810,links:"No Follow"},
+  {url:"https://newsable.asianetnews.com/",lang:"English",cat:"General News",da:65,traffic:4.0,rate:7930,links:"No Follow"},
+  {url:"https://www.livehindustan.com/",lang:"Hindi",cat:"General News",da:58,traffic:63.4,rate:30500,links:"No Follow"},
+  {url:"https://www.thenewsminute.com/",lang:"English",cat:"General News",da:81,traffic:3.5,rate:54900,links:"Do Follow"},
+  {url:"https://taxguru.in",lang:"English",cat:"Finance & Business",da:52,traffic:5.1,rate:23790,links:"Do Follow"},
+  {url:"https://www.taxscan.in/",lang:"English",cat:"Finance & Business",da:36,traffic:1.8,rate:39650,links:"Do Follow"},
+  {url:"https://www.indiatvnews.com/",lang:"English",cat:"General News",da:83,traffic:7.8,rate:29890,links:"No Follow"},
+  {url:"https://www.republicworld.com",lang:"English",cat:"General News",da:79,traffic:8.1,rate:15250,links:"No Follow"},
+  {url:"https://www.drivespark.com/",lang:"English",cat:"Automotive",da:59,traffic:6.7,rate:12200,links:"No Follow"},
+  {url:"http://www.boldsky.com/",lang:"English",cat:"Fashion & Lifestyle",da:66,traffic:3.8,rate:12200,links:"No Follow"},
+  {url:"http://www.gizbot.com/",lang:"English",cat:"Technology",da:86,traffic:3.3,rate:12200,links:"No Follow"},
+  {url:"http://www.nativeplanet.com/",lang:"English",cat:"Travel",da:44,traffic:0.9,rate:12200,links:"No Follow"},
+  {url:"http://www.goodreturns.in/",lang:"English",cat:"Finance & Business",da:49,traffic:11.2,rate:12200,links:"No Follow"},
+  {url:"http://www.filmibeat.com/",lang:"English",cat:"Entertainment",da:78,traffic:17.7,rate:12200,links:"No Follow"},
+  {url:"http://www.careerindia.com/",lang:"English",cat:"Education",da:50,traffic:1.0,rate:12200,links:"No Follow"},
+  {url:"https://www.businessupturn.com/",lang:"English",cat:"Finance & Business",da:66,traffic:0.8,rate:12810,links:"Do Follow"},
+  {url:"https://www.thequint.com",lang:"English",cat:"General News",da:83,traffic:8.1,rate:20130,links:"No Follow"},
+  {url:"https://www.latestly.com/",lang:"English",cat:"General News",da:66,traffic:2.2,rate:9150,links:"No Follow"},
+  {url:"https://www.devdiscourse.com/",lang:"English",cat:"General News",da:63,traffic:0.4,rate:31720,links:"Do Follow"},
+  {url:"https://www.forbesindia.com/",lang:"English",cat:"General News",da:82,traffic:3.2,rate:158600,links:"Sponsored"},
+  {url:"https://www.indiatimes.com/",lang:"English",cat:"General News",da:94,traffic:228.5,rate:73200,links:"No Follow"},
+  {url:"https://www.entrepreneur.com/",lang:"English",cat:"General News",da:92,traffic:4.3,rate:115900,links:"No Follow"},
+  {url:"https://www.analyticsinsight.net/",lang:"English",cat:"Technology",da:66,traffic:3.9,rate:28670,links:"No Follow"},
+  {url:"https://www.femina.in/",lang:"English",cat:"Fashion & Lifestyle",da:64,traffic:0.7,rate:219600,links:"No Follow"},
+  {url:"https://www.grazia.co.in/",lang:"English",cat:"Fashion & Lifestyle",da:46,traffic:0.1,rate:174460,links:"No Follow"},
+  {url:"https://www.jagranjosh.com/",lang:"English",cat:"Education",da:70,traffic:22.1,rate:23790,links:"No Follow"},
+  {url:"https://www.herzindagi.com/",lang:"English",cat:"Health & Wellness",da:47,traffic:9.4,rate:23790,links:"No Follow"},
+  {url:"https://www.prabhatkhabar.com/",lang:"Hindi",cat:"General News",da:51,traffic:23.3,rate:15860,links:"No Follow"},
+  {url:"https://hr.economictimes.indiatimes.com/",lang:"English",cat:"General News",da:94,traffic:172.9,rate:115900,links:"No Follow"},
+  {url:"https://www.indiatv.in/",lang:"Hindi",cat:"General News",da:36,traffic:17.0,rate:20740,links:"No Follow"},
+  {url:"https://telecom.economictimes.indiatimes.com/",lang:"English",cat:"Technology",da:94,traffic:172.9,rate:122000,links:"No Follow"},
+  {url:"https://auto.economictimes.indiatimes.com/",lang:"English",cat:"Automotive",da:94,traffic:172.9,rate:91500,links:"No Follow"},
+  {url:"https://realty.economictimes.indiatimes.com/",lang:"English",cat:"General News",da:94,traffic:172.9,rate:91500,links:"No Follow"},
+  {url:"https://energy.economictimes.indiatimes.com/",lang:"English",cat:"General News",da:94,traffic:172.9,rate:115900,links:"No Follow"},
+  {url:"https://ciso.economictimes.indiatimes.com/",lang:"English",cat:"Technology",da:94,traffic:172.9,rate:115900,links:"No Follow"},
+  {url:"https://brandequity.economictimes.indiatimes.com/",lang:"English",cat:"B2B News",da:94,traffic:172.9,rate:91500,links:"No Follow"},
+  {url:"https://cfo.economictimes.indiatimes.com/",lang:"English",cat:"Finance & Business",da:94,traffic:172.9,rate:115900,links:"No Follow"},
+  {url:"https://retail.economictimes.indiatimes.com/",lang:"English",cat:"General News",da:94,traffic:172.9,rate:91500,links:"No Follow"},
+  {url:"https://health.economictimes.indiatimes.com/",lang:"English",cat:"Health & Wellness",da:94,traffic:172.9,rate:91500,links:"No Follow"},
+  {url:"https://cio.economictimes.indiatimes.com/",lang:"English",cat:"Technology",da:94,traffic:172.9,rate:115900,links:"No Follow"},
+  {url:"https://www.onlymyhealth.com/",lang:"English",cat:"Health & Wellness",da:58,traffic:4.8,rate:30500,links:"No Follow"},
+  {url:"https://www.moneylife.in",lang:"English",cat:"Finance & Business",da:57,traffic:0.9,rate:28670,links:"Do Follow"},
+  {url:"https://www.vccircle.com/",lang:"English",cat:"General News",da:72,traffic:0.3,rate:37210,links:"No Follow"},
+  {url:"https://www.techcircle.in/",lang:"English",cat:"Technology",da:55,traffic:0.1,rate:31720,links:"No Follow"},
+  {url:"https://www.dailypioneer.com/",lang:"English",cat:"General News",da:76,traffic:0.5,rate:34160,links:"Do Follow"},
+  {url:"https://www.mathrubhumi.com/",lang:"English",cat:"General News",da:80,traffic:3.2,rate:39650,links:"Do Follow"},
+  {url:"https://www.onmanorama.com/",lang:"English",cat:"General News",da:71,traffic:1.7,rate:42700,links:"Do Follow"},
+  {url:"https://www.sentinelassam.com/",lang:"English",cat:"General News",da:58,traffic:0.2,rate:31720,links:"Do Follow"},
+  {url:"https://www.greatandhra.com",lang:"English",cat:"General News",da:60,traffic:11.0,rate:55510,links:"Do Follow"},
+  {url:"https://www.caclubindia.com",lang:"English",cat:"Finance & Business",da:50,traffic:2.0,rate:15860,links:"Do Follow"},
+  {url:"https://www.startup.info/",lang:"English",cat:"General News",da:53,traffic:0.002,rate:14640,links:"Do Follow"},
+  {url:"https://www.punekarnews.in/",lang:"English",cat:"General News",da:41,traffic:4.8,rate:7930,links:"No Follow"},
+  {url:"https://www.ibtimes.sg",lang:"English",cat:"General News",da:73,traffic:0.4,rate:10980,links:"No Follow"},
+  {url:"https://www.esakal.com",lang:"Marathi",cat:"General News",da:50,traffic:31.2,rate:39650,links:"No Follow"},
+  {url:"https://www.prajavani.net/",lang:"Kannada",cat:"General News",da:45,traffic:4.9,rate:7930,links:"No Follow"},
+  {url:"https://www.outlookhindi.com/",lang:"Hindi",cat:"General News",da:40,traffic:0.05,rate:11590,links:"No Follow"},
+  {url:"https://www.dainiktribuneonline.com/",lang:"Hindi",cat:"General News",da:35,traffic:0.1,rate:7930,links:"No Follow"},
+  {url:"https://gujarati.oneindia.com/",lang:"Gujarati",cat:"News, Lifestyle & Entertainment",da:84,traffic:0.2,rate:11590,links:"No Follow"},
+  {url:"https://hindi.oneindia.com/",lang:"Hindi",cat:"News, Lifestyle & Entertainment",da:84,traffic:2.7,rate:11590,links:"No Follow"},
+  {url:"https://kannada.oneindia.com/",lang:"Kannada",cat:"News, Lifestyle & Entertainment",da:84,traffic:2.2,rate:11590,links:"No Follow"},
+  {url:"https://malayalam.oneindia.com/",lang:"Malayalam",cat:"News, Lifestyle & Entertainment",da:84,traffic:1.9,rate:11590,links:"No Follow"},
+  {url:"https://odia.oneindia.com/",lang:"Odia",cat:"News, Lifestyle & Entertainment",da:84,traffic:0.05,rate:11590,links:"No Follow"},
+  {url:"https://tamil.oneindia.com/",lang:"Tamil",cat:"News, Lifestyle & Entertainment",da:84,traffic:19.8,rate:11590,links:"No Follow"},
+  {url:"https://www.thehansindia.com/",lang:"English",cat:"News, Lifestyle & Entertainment",da:78,traffic:1.8,rate:23790,links:"Do Follow"},
+  {url:"https://english.jagran.com/",lang:"English",cat:"General News",da:83,traffic:8.9,rate:23790,links:"No Follow"},
+  {url:"https://www.indiashorts.com/",lang:"English",cat:"General News",da:61,traffic:0.1,rate:12200,links:"Do Follow"},
+  {url:"https://www.tradebrains.in",lang:"English",cat:"General News",da:49,traffic:1.4,rate:13420,links:"Do Follow"},
+  {url:"https://www.medianews4u.com/",lang:"English",cat:"B2B News",da:45,traffic:0.1,rate:15860,links:"No Follow"},
+  {url:"https://www.nagpurtoday.in",lang:"English",cat:"General News",da:52,traffic:0.6,rate:15250,links:"Do Follow"},
+  {url:"https://businessconnectindia.in",lang:"English",cat:"General News",da:32,traffic:0.1,rate:12810,links:"Do Follow"},
+  {url:"https://www.assamtribune.com/",lang:"English",cat:"General News",da:56,traffic:0.3,rate:21960,links:"Do Follow"},
+  {url:"https://www.dailyexcelsior.com/",lang:"English",cat:"General News",da:66,traffic:0.9,rate:10370,links:"Do Follow"},
+  {url:"https://feminisminindia.com",lang:"English",cat:"General News",da:64,traffic:0.3,rate:23790,links:"Do Follow"},
+  {url:"https://www.dinamani.com",lang:"Tamil",cat:"General News",da:47,traffic:0.01,rate:71370,links:"No Follow"},
+  {url:"https://www.kannadaprabha.com",lang:"Kannada",cat:"General News",da:49,traffic:0.01,rate:39650,links:"No Follow"},
+  {url:"https://www.anandabazar.com",lang:"Bengali",cat:"General News",da:53,traffic:0,rate:31720,links:"No Follow"},
+  {url:"https://indiablooms.com/",lang:"English",cat:"Finance & Business",da:59,traffic:0.02,rate:31720,links:"Do Follow"},
+  {url:"https://www.niticentral.com/",lang:"English",cat:"General News",da:63,traffic:0.5,rate:15860,links:"Do Follow"},
+  {url:"https://www.cricketcountry.com/",lang:"English",cat:"Sports",da:76,traffic:0.5,rate:12688,links:"No Follow"},
+  {url:"https://www.ptinews.com/",lang:"English",cat:"General News",da:66,traffic:0.2,rate:12200,links:"Do Follow"},
+  {url:"https://www.siliconindia.com/",lang:"English",cat:"General News",da:59,traffic:0.1,rate:8540,links:"Do Follow"},
+  {url:"https://www.thelogicalindian.com/",lang:"English",cat:"General News",da:71,traffic:0.5,rate:12200,links:"Do Follow"},
+  {url:"https://www.rvcj.com/",lang:"English",cat:"News, Lifestyle & Entertainment",da:52,traffic:0.2,rate:7930,links:"Do Follow"},
+  {url:"https://www.goodmenproject.com/",lang:"English",cat:"General News",da:82,traffic:1.0,rate:13420,links:"Do Follow"},
+];
+
+// Add unique IDs to data
+RAW = RAW.map((d,i)=>({...d,id:i+1}));
+let nextId = RAW.length+1;
+
+// ─── CART ────────────────────────────────────────────────────────────────────
+let cart = []; // array of {pub, qty}
+
+function addToCart(id){
+  const pub = RAW.find(d=>d.id===id);
+  if(!pub) return;
+  const existing = cart.find(c=>c.pub.id===id);
+  if(existing){ existing.qty++; }
+  else { cart.push({pub, qty:1}); }
+  updateCartBadge();
+  showToast('Added to cart: '+getDomain(pub.url));
+}
+
+function removeFromCart(id){
+  cart = cart.filter(c=>c.pub.id!==id);
+  updateCartBadge();
+  if(document.getElementById('cart-modal').classList.contains('open')) renderCartModal();
+}
+
+function updateCartBadge(){
+  const count = cart.reduce((s,c)=>s+c.qty,0);
+  document.getElementById('cart-badge').textContent = count;
+  document.getElementById('cart-bar').classList.toggle('active', count>0);
+}
+
+function openCart(){
+  renderCartModal();
+  document.getElementById('cart-modal').classList.add('open');
+}
+
+function closeCart(){
+  document.getElementById('cart-modal').classList.remove('open');
+}
+
+function renderCartModal(){
+  const total = cart.reduce((s,c)=>s+(c.pub.rate*c.qty),0);
+  const body = document.getElementById('cart-modal-body');
+  if(cart.length===0){
+    body.innerHTML=`<div class="empty-cart"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#7A5C3A" stroke-width="1.5"/><path d="M16 18h16l-2 12H18L16 18z" stroke="#7A5C3A" stroke-width="1.5" stroke-linejoin="round"/><circle cx="20" cy="33" r="1.5" fill="#7A5C3A"/><circle cx="28" cy="33" r="1.5" fill="#7A5C3A"/></svg><p>Your cart is empty.<br>Browse publications and add them to get started.</p></div>`;
+    return;
+  }
+  body.innerHTML=`
+    <div class="cart-items">${cart.map(c=>`
+      <div class="cart-item">
+        <div class="ci-info">
+          <div class="ci-domain">${getDomain(c.pub.url)}</div>
+          <div class="ci-cat">${c.pub.cat} · DA ${c.pub.da} · ${c.pub.lang}</div>
+        </div>
+        <div class="ci-price">${fmtRate(c.pub.rate)}</div>
+        <button class="ci-remove" onclick="removeFromCart(${c.pub.id})">×</button>
+      </div>`).join('')}
+    </div>
+    <div class="cart-total">
+      <div class="cart-total-lbl">Total (${cart.length} publication${cart.length>1?'s':''})</div>
+      <div class="cart-total-val">${fmtRate(total)}</div>
+    </div>
+    <div class="checkout-form">
+      <div style="font-size:15px;font-weight:800;color:var(--dk);margin-bottom:4px">Complete Your Order</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="co-name" placeholder="Your name" required></div>
+        <div class="form-group"><label class="form-label">Company</label><input class="form-input" id="co-company" placeholder="Company name"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Email *</label><input class="form-input" id="co-email" type="email" placeholder="your@email.com" required></div>
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="co-phone" placeholder="+91 98765 43210"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Article Topic / Campaign Brief</label><textarea class="form-textarea" id="co-brief" placeholder="Describe what you'd like published…"></textarea></div>
+      <button class="submit-order" onclick="submitOrder()">🚀 Place Order — ${fmtRate(total)}</button>
+    </div>`;
+}
+
+function submitOrder(){
+  const name = document.getElementById('co-name').value.trim();
+  const email = document.getElementById('co-email').value.trim();
+  if(!name || !email){ showToast('Please fill name and email'); return; }
+  const order = {
+    id:'ORD-'+Date.now(),
+    date:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}),
+    name, email,
+    company:document.getElementById('co-company').value.trim(),
+    phone:document.getElementById('co-phone').value.trim(),
+    brief:document.getElementById('co-brief').value.trim(),
+    pubs:[...cart],
+    total:cart.reduce((s,c)=>s+(c.pub.rate*c.qty),0),
+    status:'New'
+  };
+  ORDERS.unshift(order);
+  cart=[];
+  updateCartBadge();
+  closeCart();
+  showToast('✅ Order placed! We\'ll contact you shortly.');
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function getDomain(url){try{return new URL(url.startsWith('http')?url:'https://'+url).hostname.replace('www.','')}catch{return url}}
+function fmtTraffic(v){if(!v||v===0)return'—';if(v>=100)return(v).toFixed(0)+'Mn';if(v>=1)return v.toFixed(1)+'Mn';return(v*1000).toFixed(0)+'K'}
+function fmtRate(v){return'₹'+v.toLocaleString('en-IN')}
+function getLangClass(lang){if(lang==='English')return'lang-en';if(lang==='Hindi')return'lang-hi';return'lang-regional'}
+function getLinkClass(l){const lower=(l||'').toLowerCase();if(lower.includes('do follow')||lower==='dofollow')return'lt-do';if(lower.includes('no follow')||lower==='nofollow')return'lt-no';return'lt-none'}
+
+// Toast
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ─── FILTERS ─────────────────────────────────────────────────────────────────
+const CATS_ALL=['All',...[...new Set(RAW.map(d=>d.cat))].sort()];
+let activeCat='All',searchVal='',sortBy='da';
+
+function getFiltered(){
+  let data=[...RAW];
+  if(activeCat!=='All') data=data.filter(d=>d.cat===activeCat);
+  if(searchVal) data=data.filter(d=>getDomain(d.url).toLowerCase().includes(searchVal)||d.cat.toLowerCase().includes(searchVal)||d.lang.toLowerCase().includes(searchVal));
+  data.sort((a,b)=>{
+    if(sortBy==='da') return b.da-a.da;
+    if(sortBy==='traffic') return b.traffic-a.traffic;
+    if(sortBy==='rate') return a.rate-b.rate;
+    return 0;
+  });
+  return data;
+}
+
+function renderCatFilters(){
+  const wrap=document.getElementById('cat-filters');
+  const counts={};RAW.forEach(d=>{counts[d.cat]=(counts[d.cat]||0)+1});
+  const cats=['All',...[...new Set(RAW.map(d=>d.cat))].sort()];
+  wrap.innerHTML=cats.map(c=>{
+    const cnt=c==='All'?RAW.length:(counts[c]||0);
+    return`<button class="cat-btn${c===activeCat?' active':''}" onclick="setCat('${c.replace(/'/g,"\\'")}')">${c}<span class="cat-count">${cnt}</span></button>`;
+  }).join('');
+}
+
+function setCat(c){activeCat=c;renderCatFilters();renderGrid()}
+function filterCards(){searchVal=document.getElementById('search').value.toLowerCase().trim();sortBy=document.getElementById('sort-by').value;renderGrid()}
+
+function renderGrid(){
+  const data=getFiltered();
+  const grid=document.getElementById('grid');
+  document.getElementById('count-display').textContent=data.length;
+  if(data.length===0){
+    grid.innerHTML=`<div class="no-results"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="20" cy="20" r="15" stroke="#7A5C3A" stroke-width="1.5"/><line x1="31" y1="31" x2="42" y2="42" stroke="#7A5C3A" stroke-width="1.5" stroke-linecap="round"/></svg><h3>No publications found</h3><p>Try adjusting your search or filter</p></div>`;
+    return;
+  }
+  grid.innerHTML=data.map((d,i)=>{
+    const domain=getDomain(d.url);
+    const daW=Math.min(d.da,100);
+    const lClass=getLangClass(d.lang);
+    const linkClass=getLinkClass(d.links);
+    const linkLabel=(d.links||'').toLowerCase().includes('do follow')||d.links==='dofollow'?'DoFollow':'NoFollow';
+    return`<div class="card" style="animation-delay:${Math.min(i*0.03,0.5)}s">
+      <div class="card-header">
+        <a href="${d.url}" target="_blank" rel="noopener" class="card-domain">${domain}</a>
+        <span class="card-lang-badge ${lClass}">${d.lang}</span>
+      </div>
+      <div class="card-cat">${d.cat}</div>
+      <div class="da-bar"><div class="da-bar-fill" style="width:${daW}%"></div></div>
+      <div class="card-metrics">
+        <div class="metric">
+          <div class="metric-val gold">${d.da}</div>
+          <div class="metric-lbl">Domain<br>Authority</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val">${fmtTraffic(d.traffic)}</div>
+          <div class="metric-lbl">Monthly<br>Traffic</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" style="font-size:13px;font-family:'Sora',sans-serif;font-weight:700">${linkLabel}</div>
+          <div class="metric-lbl">Link<br>Type</div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-rate">${fmtRate(d.rate)}<small>/ article</small></div>
+        <a href="${d.url}" target="_blank" rel="noopener" style="font-size:11px;color:var(--mid);text-decoration:none;font-weight:600;letter-spacing:.3px">Visit ↗</a>
+      </div>
+      <div class="card-purchase">
+        <button class="btn-buy" onclick="addToCart(${d.id})">+ Add to Cart</button>
+        <button class="btn-enquire" onclick="enquire('${domain}')">Enquire</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function enquire(domain){
+  window.open('https://wa.me/message/QVPKNBQ7GQTUK1?text=Hi, I would like to enquire about publishing on '+encodeURIComponent(domain),'_blank');
+}
+
+function renderTicker(){
+  const domains=[...new Set(RAW.slice(0,40).map(d=>getDomain(d.url)))];
+  const doubled=[...domains,...domains];
+  document.getElementById('ticker-inner').innerHTML=doubled.map(d=>`<span class="ticker-item">${d}</span>`).join('');
+}
+
+
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderCatFilters();
+renderTicker();
+renderGrid();
+document.getElementById('stat-total').innerHTML=RAW.length+'<span>+</span>';
+</script>
+</body>
+</html>

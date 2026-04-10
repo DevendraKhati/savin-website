@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Savin Communication</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFFFF;--bg2:#FFF8F3;--bg3:#FFF2E8;
+  --or:#F26B1D;--or2:#E55A0C;--or3:#FF8C42;
+  --or-lt:rgba(242,107,29,0.10);--or-lt2:rgba(242,107,29,0.06);
+  --dk:#1A0F00;--dk2:#2D1A00;--mid:#7A5C3A;
+  --bd:rgba(242,107,29,0.18);--bd2:rgba(26,15,0,0.09);
+  --txt:#1A0F00;--txt2:#5A3D1C;
+  --err:#DC2626;--suc:#16A34A;
+}
+html,body{height:100%;font-family:'Sora',sans-serif;-webkit-font-smoothing:antialiased}
+
+/* ── LOGIN SCREEN ── */
+#login-screen{
+  min-height:100vh;background:linear-gradient(135deg,var(--dk) 0%,#3B1F00 55%,var(--dk2) 100%);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  position:relative;overflow:hidden;
+}
+.login-bg-circle{position:absolute;border-radius:50%;border:1px solid rgba(242,107,29,0.12);pointer-events:none}
+.login-card{
+  background:#fff;border-radius:20px;padding:48px 44px 40px;width:100%;max-width:420px;
+  box-shadow:0 32px 80px rgba(0,0,0,0.35);position:relative;z-index:1;
+}
+.login-logo{font-family:'Fraunces',serif;font-size:26px;font-weight:900;color:var(--dk);text-align:center;margin-bottom:4px}
+.login-logo span{color:var(--or)}
+.login-tagline{font-size:12px;color:var(--mid);text-align:center;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;margin-bottom:36px}
+.login-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.login-eyebrow::before,.login-eyebrow::after{content:'';flex:1;height:1px;background:var(--bd2)}
+.login-eyebrow span{font-size:11px;font-weight:700;color:var(--mid);letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.login-field{margin-bottom:18px}
+.login-label{display:block;font-size:12px;font-weight:700;color:var(--txt2);letter-spacing:.6px;text-transform:uppercase;margin-bottom:7px}
+.login-input-wrap{position:relative}
+.login-input{
+  width:100%;padding:13px 44px 13px 16px;border:1.5px solid var(--bd2);border-radius:10px;
+  font-family:'Sora',sans-serif;font-size:14px;color:var(--txt);outline:none;
+  transition:border .2s,box-shadow .2s;background:#fff;font-weight:500;
+}
+.login-input:focus{border-color:var(--or);box-shadow:0 0 0 3px var(--or-lt)}
+.login-input.error{border-color:var(--err);box-shadow:0 0 0 3px rgba(220,38,38,0.1)}
+.toggle-pw{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--mid);font-size:15px;padding:4px;line-height:1}
+.login-error{display:none;align-items:center;gap:8px;background:rgba(220,38,38,0.07);border:1px solid rgba(220,38,38,0.2);border-radius:8px;padding:11px 14px;margin-bottom:18px}
+.login-error.show{display:flex}
+.login-error span{font-size:13px;color:var(--err);font-weight:600}
+.login-btn{
+  width:100%;background:var(--or);color:#fff;border:none;border-radius:10px;
+  padding:15px;font-family:'Sora',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;letter-spacing:.4px;box-shadow:0 6px 22px rgba(242,107,29,0.38);
+  transition:all .2s;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.login-btn:hover{background:var(--or2);transform:translateY(-1px);box-shadow:0 8px 28px rgba(242,107,29,0.46)}
+.login-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.login-back{display:block;text-align:center;margin-top:22px;font-size:13px;color:var(--mid);text-decoration:none;font-weight:500;transition:color .15s}
+.login-back:hover{color:var(--or)}
+.login-hint{margin-top:24px;padding:14px;background:var(--bg2);border-radius:8px;border:1px solid var(--bd2)}
+.login-hint p{font-size:12px;color:var(--mid);font-weight:500;line-height:1.7}
+.login-hint strong{color:var(--or);font-weight:700}
+.spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,0.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── ADMIN APP (hidden until logged in) ── */
+#admin-app{display:none;min-height:100vh;background:var(--bg2)}
+#admin-app.visible{display:flex;flex-direction:column}
+
+/* ADMIN NAV */
+.admin-nav{
+  background:#fff;border-bottom:1.5px solid var(--bd);padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:60px;position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 12px rgba(242,107,29,0.07);flex-shrink:0;
+}
+.admin-nav-logo{font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--dk)}
+.admin-nav-logo span{color:var(--or)}
+.admin-nav-badge{font-size:10px;font-weight:700;background:var(--or);color:#fff;padding:3px 9px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-left:10px;vertical-align:middle}
+.admin-nav-right{display:flex;align-items:center;gap:16px}
+.admin-user-info{font-size:13px;color:var(--mid);font-weight:600;display:flex;align-items:center;gap:8px}
+.admin-avatar{width:32px;height:32px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
+.admin-logout{background:none;border:1.5px solid var(--bd2);border-radius:7px;padding:7px 14px;font-family:'Sora',sans-serif;font-size:12px;font-weight:700;color:var(--mid);cursor:pointer;transition:all .2s}
+.admin-logout:hover{border-color:var(--err);color:var(--err)}
+.back-site{font-size:12px;font-weight:600;color:var(--mid);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .15s}
+.back-site:hover{color:var(--or)}
+
+/* ADMIN LAYOUT */
+.admin-layout{display:flex;flex:1;min-height:calc(100vh - 60px)}
+
+/* SIDEBAR */
+.admin-sidebar{
+  width:220px;background:#fff;border-right:1.5px solid var(--bd2);
+  padding:24px 0;flex-shrink:0;position:sticky;top:60px;height:calc(100vh - 60px);
+  overflow-y:auto;
+}
+.sidebar-section{padding:0 16px;margin-bottom:8px}
+.sidebar-section-lbl{font-size:10px;font-weight:700;color:var(--mid);letter-spacing:2px;text-transform:uppercase;padding:0 8px;margin-bottom:8px}
+.sidebar-link{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;
+  font-size:13px;font-weight:600;color:var(--txt2);cursor:pointer;transition:all .18s;
+  text-decoration:none;margin-bottom:2px;
+}
+.sidebar-link:hover{background:var(--or-lt2);color:var(--or)}
+.sidebar-link.active{background:var(--or-lt);color:var(--or)}
+.sidebar-link .s-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sidebar-badge{margin-left:auto;background:var(--or);color:#fff;font-size:10px;font-weight:800;border-radius:10px;padding:2px 7px;min-width:20px;text-align:center}
+.sidebar-divider{border:none;border-top:1px solid var(--bd2);margin:12px 16px}
+
+/* MAIN CONTENT */
+.admin-main{flex:1;padding:32px;overflow-y:auto;min-width:0}
+.page-section{display:none}
+.page-section.active{display:block}
+.page-header{margin-bottom:28px}
+.page-title{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--dk);margin-bottom:6px}
+.page-title span{color:var(--or)}
+.page-sub{font-size:14px;color:var(--mid);font-weight:500}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:#fff;border:1.5px solid var(--bd2);border-radius:12px;padding:20px;transition:box-shadow .2s,transform .15s}
+.stat-card:hover{box-shadow:0 4px 20px rgba(242,107,29,0.1);transform:translateY(-2px)}
+.stat-icon{font-size:22px;margin-bottom:10px}
+.stat-val{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--dk);line-height:1}
+.stat-val.orange{color:var(--or)}
+.stat-lbl{font-size:12px;color:var(--mid);margin-top:5px;font-weight:600;letter-spacing:.3px}
+
+/* TABLE */
+.table-card{background:#fff;border:1.5px solid var(--bd2);border-radius:12px;overflow:hidden;margin-bottom:24px}
+.table-card-head{padding:18px 20px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.table-card-title{font-size:15px;font-weight:800;color:var(--dk)}
+.table-actions-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tbl-search{padding:9px 14px;border:1.5px solid var(--bd2);border-radius:8px;font-family:'Sora',sans-serif;font-size:13px;color:var(--txt);outline:none;width:220px;background:#fff}
+.tbl-search:focus{border-color:var(--or);box-shadow:0 0 0 3px var(--or-lt)}
+.add-btn{background:var(--or);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;box-shadow:0 3px 12px rgba(242,107,29,0.28);transition:all .2s}
+.add-btn:hover{background:var(--or2)}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th{padding:11px 16px;background:var(--bg2);font-weight:700;color:var(--txt2);text-align:left;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:1.5px solid var(--bd2);white-space:nowrap}
+.data-table td{padding:11px 16px;border-bottom:1px solid var(--bd2);color:var(--txt);vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:var(--or-lt2)}
+.td-domain{font-weight:700;color:var(--or);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.td-da{font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:var(--dk)}
+.td-rate{font-family:'Fraunces',serif;font-size:14px;font-weight:900;color:var(--or)}
+.badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.badge-do{background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.25);color:#15803D}
+.badge-no{background:rgba(242,107,29,0.1);border:1px solid rgba(242,107,29,0.2);color:var(--or)}
+.badge-sp{background:rgba(90,61,28,0.08);border:1px solid rgba(90,61,28,0.15);color:var(--mid)}
+.badge-en{background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);color:#1D4ED8}
+.badge-hi{background:rgba(242,107,29,0.1);border:1px solid rgba(242,107,29,0.2);color:var(--or)}
+.badge-re{background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.25);color:#15803D}
+.row-actions{display:flex;gap:6px}
+.btn-edit{background:var(--or-lt);color:var(--or);border:1px solid var(--or);border-radius:6px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;transition:all .15s}
+.btn-edit:hover{background:var(--or);color:#fff}
+.btn-del{background:rgba(220,38,38,0.07);color:var(--err);border:1px solid rgba(220,38,38,0.2);border-radius:6px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Sora',sans-serif;transition:all .15s}
+.btn-del:hover{background:var(--err);color:#fff}
+.table-footer{padding:14px 20px;border-top:1px solid var(--bd2);font-size:12px;color:var(--mid);font-weight:600}
+
+/* FORM MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(26,15,0,0.6);backdrop-filter:blur(5px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,0.2)}
+.modal-head{padding:24px 28px 20px;border-bottom:1.5px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
+.modal-title{font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:var(--dk)}
+.modal-title span{color:var(--or)}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--mid);width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{padding:24px 28px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-full{grid-column:1/-1}
+.f-label{font-size:11px;font-weight:700;color:var(--txt2);letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
+.f-input,.f-select{width:100%;padding:11px 14px;border:1.5px solid var(--bd2);border-radius:8px;font-family:'Sora',sans-serif;font-size:13px;color:var(--txt);outline:none;transition:border .2s;background:#fff;font-weight:500}
+.f-input:focus,.f-select:focus{border-color:var(--or);box-shadow:0 0 0 3px var(--or-lt)}
+.f-input.invalid{border-color:var(--err)}
+.modal-foot{padding:16px 28px 24px;display:flex;gap:10px;justify-content:flex-end}
+.btn-save{background:var(--or);color:#fff;border:none;border-radius:8px;padding:12px 28px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(242,107,29,0.3);transition:all .2s}
+.btn-save:hover{background:var(--or2);transform:translateY(-1px)}
+.btn-cancel{background:#fff;color:var(--mid);border:1.5px solid var(--bd2);border-radius:8px;padding:11px 20px;font-family:'Sora',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-cancel:hover{border-color:var(--or);color:var(--or)}
+
+/* ORDERS */
+.orders-grid{display:grid;gap:14px}
+.order-card{background:#fff;border:1.5px solid var(--bd2);border-radius:12px;padding:20px;transition:box-shadow .15s}
+.order-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.07)}
+.order-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.order-id{font-size:12px;font-weight:700;color:var(--or);letter-spacing:.5px}
+.order-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.order-date{font-size:11px;color:var(--mid);font-weight:500}
+.status-badge{font-size:10px;font-weight:800;padding:4px 10px;border-radius:20px;letter-spacing:.5px}
+.sb-new{background:rgba(242,107,29,0.12);border:1px solid rgba(242,107,29,0.25);color:var(--or)}
+.sb-processing{background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);color:#1D4ED8}
+.sb-done{background:rgba(22,163,74,0.1);border:1px solid rgba(22,163,74,0.25);color:#15803D}
+.order-name{font-size:16px;font-weight:800;color:var(--dk)}
+.order-contact{font-size:12px;color:var(--mid);margin-top:2px;font-weight:500}
+.order-pubs{margin-top:12px;padding-top:12px;border-top:1px solid var(--bd2)}
+.order-pubs-title{font-size:11px;font-weight:700;color:var(--mid);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.order-pub-item{display:flex;justify-content:space-between;font-size:13px;color:var(--txt2);padding:3px 0;font-weight:500}
+.order-pub-price{font-weight:700;color:var(--dk)}
+.order-total-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--bd)}
+.order-total-lbl{font-size:13px;font-weight:700;color:var(--txt2)}
+.order-total-val{font-family:'Fraunces',serif;font-size:20px;font-weight:900;color:var(--or)}
+.order-brief{font-size:12px;color:var(--mid);font-style:italic;margin-top:8px;padding:10px;background:var(--bg2);border-radius:7px;line-height:1.6}
+.order-actions{display:flex;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--bd2)}
+.btn-status{font-size:11px;font-weight:700;padding:6px 12px;border-radius:6px;cursor:pointer;border:1.5px solid var(--bd2);background:#fff;color:var(--mid);font-family:'Sora',sans-serif;transition:all .15s}
+.btn-status:hover{border-color:var(--or);color:var(--or)}
+.btn-del-order{font-size:11px;font-weight:700;padding:6px 12px;border-radius:6px;cursor:pointer;border:1.5px solid rgba(220,38,38,0.2);background:rgba(220,38,38,0.05);color:var(--err);font-family:'Sora',sans-serif;transition:all .15s}
+.btn-del-order:hover{background:var(--err);color:#fff;border-color:var(--err)}
+.empty-state{text-align:center;padding:60px 20px;color:var(--mid)}
+.empty-state .e-icon{font-size:48px;margin-bottom:16px}
+.empty-state h3{font-family:'Fraunces',serif;font-size:22px;color:var(--dk);margin-bottom:8px}
+.empty-state p{font-size:14px;font-weight:500;line-height:1.6}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--dk);color:#fff;padding:12px 24px;border-radius:10px;font-size:13px;font-weight:700;z-index:500;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;box-shadow:0 8px 28px rgba(0,0,0,0.22)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{background:var(--suc)}
+.toast.error-toast{background:var(--err)}
+
+/* SETTINGS PAGE */
+.settings-card{background:#fff;border:1.5px solid var(--bd2);border-radius:12px;padding:24px;margin-bottom:20px}
+.settings-card-title{font-size:16px;font-weight:800;color:var(--dk);margin-bottom:18px;display:flex;align-items:center;gap:9px}
+.settings-card-title .s-icon{font-size:18px}
+.cred-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.cred-label{font-size:13px;font-weight:600;color:var(--txt2);min-width:100px}
+.cred-input{flex:1;padding:10px 14px;border:1.5px solid var(--bd2);border-radius:8px;font-family:'Sora',sans-serif;font-size:13px;color:var(--txt);outline:none;background:#fff}
+.cred-input:focus{border-color:var(--or);box-shadow:0 0 0 3px var(--or-lt)}
+.btn-update-cred{background:var(--or);color:#fff;border:none;border-radius:8px;padding:11px 22px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 12px rgba(242,107,29,0.28);transition:all .2s}
+.btn-update-cred:hover{background:var(--or2)}
+
+/* DA BAR */
+.mini-bar{height:4px;background:var(--bd2);border-radius:4px;overflow:hidden;width:60px;display:inline-block;vertical-align:middle;margin-left:6px}
+.mini-bar-fill{height:100%;background:linear-gradient(90deg,var(--or),var(--or3));border-radius:4px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .admin-sidebar{display:none}
+  .admin-main{padding:20px}
+  .form-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .login-card{padding:36px 24px 32px}
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.page-section.active{animation:fadeIn .25s ease}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════ LOGIN SCREEN ══════════════ -->
+<div id="login-screen">
+  <!-- Decorative circles -->
+  <div class="login-bg-circle" style="width:500px;height:500px;top:-200px;right:-150px"></div>
+  <div class="login-bg-circle" style="width:320px;height:320px;bottom:-100px;left:-80px;border-color:rgba(242,107,29,0.08)"></div>
+  <div class="login-bg-circle" style="width:180px;height:180px;top:60px;left:10%;border-color:rgba(242,107,29,0.07)"></div>
+
+  <div class="login-card">
+    <div class="login-logo">Savin<span>.</span></div>
+    <div class="login-tagline">Admin Portal</div>
+
+    <div class="login-eyebrow"><span>Sign In to Continue</span></div>
+
+    <div class="login-error" id="login-error">
+      <span>⚠</span>
+      <span id="login-error-msg">Invalid login ID or password.</span>
+    </div>
+
+    <div class="login-field">
+      <label class="login-label" for="login-id">Login ID</label>
+      <div class="login-input-wrap">
+        <input class="login-input" type="text" id="login-id" placeholder="Enter your login ID" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+    </div>
+
+    <div class="login-field">
+      <label class="login-label" for="login-pw">Password</label>
+      <div class="login-input-wrap">
+        <input class="login-input" type="password" id="login-pw" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="toggle-pw" type="button" onclick="togglePw()" id="pw-eye">👁</button>
+      </div>
+    </div>
+
+    <button class="login-btn" id="login-btn" onclick="doLogin()">
+      <div class="spinner" id="login-spinner"></div>
+      <span id="login-btn-text">Sign In →</span>
+    </button>
+
+    <a href="savin_media_platforms.html" class="login-back">← Back to Media Platforms</a>
+
+    <div class="login-hint">
+      <p>Default credentials:<br><strong>Login ID:</strong> savin_admin &nbsp;|&nbsp; <strong>Password:</strong> Savin@2026</p>
+      <p style="margin-top:6px;font-size:11px;color:#aaa">Change credentials in Settings after login.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ ADMIN APP ══════════════ -->
+<div id="admin-app">
+
+  <!-- NAV -->
+  <nav class="admin-nav">
+    <div style="display:flex;align-items:center">
+      <div class="admin-nav-logo">Savin<span>.</span></div>
+      <span class="admin-nav-badge">Admin</span>
+    </div>
+    <div class="admin-nav-right">
+      <a href="savin_media_platforms.html" class="back-site">← View Site</a>
+      <div class="admin-user-info">
+        <div class="admin-avatar" id="nav-avatar">A</div>
+        <span id="nav-username">Admin</span>
+      </div>
+      <button class="admin-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-section-lbl">Main</div>
+        <div class="sidebar-link active" onclick="goto('dashboard')" data-page="dashboard">
+          <span class="s-icon">📊</span> Dashboard
+        </div>
+        <div class="sidebar-link" onclick="goto('publications')" data-page="publications">
+          <span class="s-icon">📰</span> Publications
+        </div>
+        <div class="sidebar-link" onclick="goto('orders')" data-page="orders">
+          <span class="s-icon">🛒</span> Orders
+          <span class="sidebar-badge" id="orders-badge" style="display:none">0</span>
+        </div>
+      </div>
+      <hr class="sidebar-divider">
+      <div class="sidebar-section">
+        <div class="sidebar-section-lbl">System</div>
+        <div class="sidebar-link" onclick="goto('settings')" data-page="settings">
+          <span class="s-icon">⚙️</span> Settings
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+
+      <!-- DASHBOARD -->
+      <div class="page-section active" id="page-dashboard">
+        <div class="page-header">
+          <div class="page-title">Dashboard <span>Overview</span></div>
+          <div class="page-sub">Welcome back! Here's a summary of your media network.</div>
+        </div>
+        <div class="stats-grid" id="dash-stats"></div>
+        <div class="table-card">
+          <div class="table-card-head">
+            <div class="table-card-title">Top 10 Publications by DA</div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table" id="top-pubs-table">
+              <thead><tr>
+                <th>Domain</th><th>DA</th><th>Traffic</th><th>Rate</th><th>Category</th><th>Lang</th>
+              </tr></thead>
+              <tbody id="top-pubs-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- PUBLICATIONS -->
+      <div class="page-section" id="page-publications">
+        <div class="page-header">
+          <div class="page-title">Publications <span>Manager</span></div>
+          <div class="page-sub">Add, edit or remove publications from the media network.</div>
+        </div>
+        <div class="table-card">
+          <div class="table-card-head">
+            <div class="table-card-title" id="pub-count-lbl">All Publications</div>
+            <div class="table-actions-row">
+              <input class="tbl-search" id="pub-search" placeholder="Search domain, category…" oninput="renderPubTable()">
+              <select class="tbl-search" id="pub-filter-lang" onchange="renderPubTable()" style="width:130px">
+                <option value="">All Languages</option>
+              </select>
+              <select class="tbl-search" id="pub-filter-cat" onchange="renderPubTable()" style="width:160px">
+                <option value="">All Categories</option>
+              </select>
+              <button class="add-btn" onclick="openPubModal(null)">➕ Add New</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead><tr>
+                <th>Domain</th><th>DA</th><th>Traffic</th><th>Rate</th><th>Category</th><th>Lang</th><th>Links</th><th>Actions</th>
+              </tr></thead>
+              <tbody id="pub-table-body"></tbody>
+            </table>
+          </div>
+          <div class="table-footer" id="pub-table-footer"></div>
+        </div>
+      </div>
+
+      <!-- ORDERS -->
+      <div class="page-section" id="page-orders">
+        <div class="page-header">
+          <div class="page-title">Customer <span>Orders</span></div>
+          <div class="page-sub">Orders submitted through the media platforms page.</div>
+        </div>
+        <div id="orders-container"></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page-section" id="page-settings">
+        <div class="page-header">
+          <div class="page-title">Admin <span>Settings</span></div>
+          <div class="page-sub">Manage your login credentials and admin preferences.</div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title"><span class="s-icon">🔐</span> Change Login Credentials</div>
+          <div class="cred-row">
+            <span class="cred-label">Login ID</span>
+            <input class="cred-input" id="new-login-id" placeholder="New login ID">
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">New Password</span>
+            <input class="cred-input" type="password" id="new-pw" placeholder="New password">
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">Confirm Password</span>
+            <input class="cred-input" type="password" id="confirm-pw" placeholder="Confirm new password">
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">Current Password</span>
+            <input class="cred-input" type="password" id="current-pw" placeholder="Enter current password to save">
+          </div>
+          <button class="btn-update-cred" onclick="updateCredentials()">Update Credentials</button>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title"><span class="s-icon">📊</span> Data Summary</div>
+          <p style="font-size:13px;color:var(--mid);font-weight:500;line-height:1.8" id="settings-summary"></p>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title"><span class="s-icon">⚠️</span> Danger Zone</div>
+          <p style="font-size:13px;color:var(--mid);margin-bottom:14px;line-height:1.6;font-weight:500">These actions are irreversible. Proceed with caution.</p>
+          <button onclick="clearOrders()" style="background:rgba(220,38,38,0.07);color:var(--err);border:1.5px solid rgba(220,38,38,0.2);border-radius:8px;padding:10px 20px;font-family:'Sora',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s" onmouseover="this.style.background='#DC2626';this.style.color='#fff'" onmouseout="this.style.background='rgba(220,38,38,0.07)';this.style.color='var(--err)'">🗑 Clear All Orders</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- PUBLICATION FORM MODAL -->
+<div class="modal-overlay" id="pub-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="pub-modal-title">Add <span>Publication</span></div>
+      <button class="modal-close" onclick="closePubModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-full">
+          <div class="f-label">Publication URL *</div>
+          <input class="f-input" id="f-url" placeholder="https://example.com">
+        </div>
+        <div>
+          <div class="f-label">Language</div>
+          <select class="f-select" id="f-lang">
+            <option>English</option><option>Hindi</option><option>Tamil</option>
+            <option>Telugu</option><option>Kannada</option><option>Malayalam</option>
+            <option>Marathi</option><option>Bengali</option><option>Gujarati</option>
+            <option>Punjabi</option><option>Odia</option>
+          </select>
+        </div>
+        <div>
+          <div class="f-label">Link Type</div>
+          <select class="f-select" id="f-links">
+            <option>Do Follow</option><option>No Follow</option><option>Sponsored</option>
+          </select>
+        </div>
+        <div class="form-full">
+          <div class="f-label">Category</div>
+          <select class="f-select" id="f-cat"></select>
+        </div>
+        <div>
+          <div class="f-label">Domain Authority (0–100)</div>
+          <input class="f-input" id="f-da" type="number" min="0" max="100" placeholder="e.g. 75">
+        </div>
+        <div>
+          <div class="f-label">Monthly Traffic (Mn)</div>
+          <input class="f-input" id="f-traffic" type="number" step="0.01" placeholder="e.g. 5.2">
+        </div>
+        <div class="form-full">
+          <div class="f-label">Rate ₹ per article</div>
+          <input class="f-input" id="f-rate" type="number" placeholder="e.g. 25000">
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closePubModal()">Cancel</button>
+      <button class="btn-save" onclick="savePub()">Save Publication</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CREDENTIALS ─────────────────────────────────────────────────────────────
+let CREDS = { id: 'savin_admin', pw: 'Savin@2026' };
+let currentUser = null;
+let failCount = 0;
+let lockUntil = 0;
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+let RAW = [
+  {url:"https://www.hindustantimes.com/",lang:"English",cat:"News, Lifestyle & Entertainment",da:93,traffic:128.9,rate:54900,links:"No Follow"},
+  {url:"https://tech.hindustantimes.com/",lang:"English",cat:"Technology",da:93,traffic:10.3,rate:42700,links:"No Follow"},
+  {url:"https://kannada.hindustantimes.com/",lang:"Kannada",cat:"News, Lifestyle & Entertainment",da:93,traffic:1.4,rate:42700,links:"No Follow"},
+  {url:"https://bangla.hindustantimes.com/",lang:"Bengali",cat:"News, Lifestyle & Entertainment",da:93,traffic:2.8,rate:42700,links:"No Follow"},
+  {url:"https://tamil.hindustantimes.com/",lang:"Tamil",cat:"News, Lifestyle & Entertainment",da:93,traffic:1.7,rate:42700,links:"No Follow"},
+  {url:"https://telugu.hindustantimes.com/",lang:"Telugu",cat:"News, Lifestyle & Entertainment",da:93,traffic:1.3,rate:42700,links:"No Follow"},
+  {url:"https://marathi.hindustantimes.com/",lang:"Marathi",cat:"News, Lifestyle & Entertainment",da:93,traffic:0.2,rate:42700,links:"No Follow"},
+  {url:"https://auto.hindustantimes.com/",lang:"English",cat:"Automotive",da:93,traffic:4.8,rate:42700,links:"No Follow"},
+  {url:"https://www.livemint.com/",lang:"English",cat:"Finance & Business",da:91,traffic:56.9,rate:75640,links:"No Follow"},
+  {url:"https://www.deccanherald.com/",lang:"English",cat:"General News",da:83,traffic:14.3,rate:15860,links:"No Follow"},
+  {url:"https://www.deccanchronicle.com",lang:"English",cat:"General News",da:83,traffic:2.0,rate:22570,links:"Do Follow"},
+  {url:"https://english.newsnationtv.com/",lang:"English",cat:"General News",da:64,traffic:0.4,rate:9150,links:"No Follow"},
+  {url:"https://www.freepressjournal.in/",lang:"English",cat:"General News",da:80,traffic:7.2,rate:12200,links:"No Follow"},
+  {url:"https://zeenews.india.com/",lang:"English",cat:"News, Lifestyle & Entertainment",da:90,traffic:36.6,rate:18300,links:"Do Follow"},
+  {url:"https://zeenews.india.com/hindi",lang:"Hindi",cat:"News, Lifestyle & Entertainment",da:90,traffic:36.6,rate:18300,links:"No Follow"},
+  {url:"https://zeenews.india.com/marathi/",lang:"Marathi",cat:"News, Lifestyle & Entertainment",da:90,traffic:36.6,rate:18300,links:"No Follow"},
+  {url:"https://www.techlusive.in/",lang:"English",cat:"Technology",da:78,traffic:0.7,rate:18300,links:"No Follow"},
+  {url:"https://www.apnnews.com/",lang:"English",cat:"General News",da:55,traffic:0.1,rate:6100,links:"Do Follow"},
+  {url:"https://m.dailyhunt.in/",lang:"English",cat:"General News",da:61,traffic:21.5,rate:2440,links:"No Follow"},
+  {url:"https://www.dnaindia.com/",lang:"English",cat:"General News",da:88,traffic:21.0,rate:18300,links:"Do Follow"},
+  {url:"https://www.mid-day.com/",lang:"English",cat:"Entertainment",da:85,traffic:7.4,rate:11590,links:"No Follow"},
+  {url:"https://www.zeebiz.com/",lang:"English",cat:"Finance & Business",da:62,traffic:12.0,rate:18300,links:"No Follow"},
+  {url:"https://www.india.com/",lang:"English",cat:"General News",da:90,traffic:124.6,rate:18300,links:"No Follow"},
+  {url:"https://www.bollywoodlife.com/",lang:"English",cat:"Entertainment",da:82,traffic:12.3,rate:18300,links:"No Follow"},
+  {url:"https://theprint.in/",lang:"English",cat:"General News",da:79,traffic:9.9,rate:15250,links:"No Follow"},
+  {url:"https://hindi.theprint.in/",lang:"Hindi",cat:"General News",da:79,traffic:0.4,rate:15250,links:"No Follow"},
+  {url:"https://www.thehindu.com/",lang:"English",cat:"General News",da:91,traffic:39.3,rate:36600,links:"No Follow"},
+  {url:"https://sportstar.thehindu.com/",lang:"English",cat:"Sports",da:91,traffic:2.9,rate:36600,links:"No Follow"},
+  {url:"https://www.tellychakkar.com/",lang:"English",cat:"Entertainment",da:56,traffic:4.2,rate:18300,links:"Do Follow"},
+  {url:"https://www.indiantelevision.com/",lang:"English",cat:"B2B News",da:56,traffic:0.1,rate:15860,links:"Do Follow"},
+  {url:"https://www.adgully.com/",lang:"English",cat:"B2B News",da:55,traffic:0.2,rate:12200,links:"Do Follow"},
+  {url:"https://aninews.in/",lang:"English",cat:"General News",da:77,traffic:1.9,rate:12200,links:"Do Follow"},
+  {url:"https://www.oneindia.com",lang:"English",cat:"News, Lifestyle & Entertainment",da:84,traffic:34.7,rate:11590,links:"No Follow"},
+  {url:"https://www.business-standard.com/",lang:"English",cat:"Finance & Business",da:89,traffic:8.9,rate:25620,links:"No Follow"},
+  {url:"https://www.outlookindia.com/",lang:"English",cat:"Finance & Business",da:89,traffic:23.5,rate:21960,links:"No Follow"},
+  {url:"https://www.thehindubusinessline.com/",lang:"English",cat:"Finance & Business",da:86,traffic:5.5,rate:36600,links:"No Follow"},
+  {url:"https://www.filmibeat.com/",lang:"English",cat:"Entertainment",da:78,traffic:17.7,rate:7930,links:"No Follow"},
+  {url:"https://www.khaleejtimes.com/",lang:"English",cat:"General News",da:87,traffic:15.7,rate:42700,links:"Do Follow"},
+  {url:"https://www.indiatoday.in/",lang:"English",cat:"General News",da:90,traffic:82.0,rate:35380,links:"No Follow"},
+  {url:"https://www.businesstoday.in/",lang:"English",cat:"Finance & Business",da:78,traffic:16.8,rate:54900,links:"No Follow"},
+  {url:"https://www.tribuneindia.com/",lang:"English",cat:"General News",da:82,traffic:9.1,rate:7930,links:"No Follow"},
+  {url:"https://www.healthshots.com/",lang:"English",cat:"Health & Wellness",da:54,traffic:5.1,rate:61000,links:"No Follow"},
+  {url:"https://www.thehealthsite.com/",lang:"English",cat:"Health & Wellness",da:76,traffic:5.8,rate:22570,links:"No Follow"},
+  {url:"https://www.exchange4media.com/",lang:"English",cat:"B2B News",da:68,traffic:0.4,rate:142740,links:"No Follow"},
+  {url:"https://www.afaqs.com/",lang:"English",cat:"B2B News",da:70,traffic:0.6,rate:24400,links:"No Follow"},
+  {url:"https://timesofindia.com",lang:"English",cat:"News, Lifestyle & Entertainment",da:84,traffic:206.0,rate:91500,links:"No Follow"},
+  {url:"https://maharashtratimes.com/",lang:"Marathi",cat:"General News",da:48,traffic:40.2,rate:91500,links:"No Follow"},
+  {url:"https://navbharattimes.indiatimes.com/",lang:"Hindi",cat:"General News",da:94,traffic:51.2,rate:79300,links:"No Follow"},
+  {url:"https://m.economictimes.com/",lang:"English",cat:"Finance & Business",da:77,traffic:64.8,rate:91500,links:"No Follow"},
+  {url:"https://www.gadgetsnow.com/",lang:"English",cat:"Technology",da:81,traffic:8.8,rate:91500,links:"No Follow"},
+  {url:"https://www.moneycontrol.com/",lang:"English",cat:"Finance & Business",da:89,traffic:81.9,rate:91500,links:"No Follow"},
+  {url:"https://www.newindianexpress.com/",lang:"English",cat:"General News",da:86,traffic:7.7,rate:61000,links:"No Follow"},
+  {url:"https://news.abplive.com/",lang:"English",cat:"General News",da:65,traffic:10.9,rate:13420,links:"No Follow"},
+  {url:"https://www.abplive.com/",lang:"Hindi",cat:"General News",da:65,traffic:106.3,rate:12810,links:"No Follow"},
+  {url:"https://www.livehindustan.com/",lang:"Hindi",cat:"General News",da:58,traffic:63.4,rate:30500,links:"No Follow"},
+  {url:"https://www.thenewsminute.com/",lang:"English",cat:"General News",da:81,traffic:3.5,rate:54900,links:"Do Follow"},
+  {url:"https://www.indiatvnews.com/",lang:"English",cat:"General News",da:83,traffic:7.8,rate:29890,links:"No Follow"},
+  {url:"https://www.republicworld.com",lang:"English",cat:"General News",da:79,traffic:8.1,rate:15250,links:"No Follow"},
+  {url:"https://www.drivespark.com/",lang:"English",cat:"Automotive",da:59,traffic:6.7,rate:12200,links:"No Follow"},
+  {url:"http://www.boldsky.com/",lang:"English",cat:"Fashion & Lifestyle",da:66,traffic:3.8,rate:12200,links:"No Follow"},
+  {url:"http://www.gizbot.com/",lang:"English",cat:"Technology",da:86,traffic:3.3,rate:12200,links:"No Follow"},
+  {url:"http://www.goodreturns.in/",lang:"English",cat:"Finance & Business",da:49,traffic:11.2,rate:12200,links:"No Follow"},
+  {url:"https://www.businessupturn.com/",lang:"English",cat:"Finance & Business",da:66,traffic:0.8,rate:12810,links:"Do Follow"},
+  {url:"https://www.thequint.com",lang:"English",cat:"General News",da:83,traffic:8.1,rate:20130,links:"No Follow"},
+  {url:"https://www.devdiscourse.com/",lang:"English",cat:"General News",da:63,traffic:0.4,rate:31720,links:"Do Follow"},
+  {url:"https://www.forbesindia.com/",lang:"English",cat:"General News",da:82,traffic:3.2,rate:158600,links:"Sponsored"},
+  {url:"https://www.indiatimes.com/",lang:"English",cat:"General News",da:94,traffic:228.5,rate:73200,links:"No Follow"},
+  {url:"https://www.entrepreneur.com/",lang:"English",cat:"General News",da:92,traffic:4.3,rate:115900,links:"No Follow"},
+  {url:"https://www.analyticsinsight.net/",lang:"English",cat:"Technology",da:66,traffic:3.9,rate:28670,links:"No Follow"},
+  {url:"https://www.femina.in/",lang:"English",cat:"Fashion & Lifestyle",da:64,traffic:0.7,rate:219600,links:"No Follow"},
+  {url:"https://www.jagranjosh.com/",lang:"English",cat:"Education",da:70,traffic:22.1,rate:23790,links:"No Follow"},
+  {url:"https://www.herzindagi.com/",lang:"English",cat:"Health & Wellness",da:47,traffic:9.4,rate:23790,links:"No Follow"},
+  {url:"https://www.prabhatkhabar.com/",lang:"Hindi",cat:"General News",da:51,traffic:23.3,rate:15860,links:"No Follow"},
+  {url:"https://hr.economictimes.indiatimes.com/",lang:"English",cat:"General News",da:94,traffic:172.9,rate:115900,links:"No Follow"},
+  {url:"https://telecom.economictimes.indiatimes.com/",lang:"English",cat:"Technology",da:94,traffic:172.9,rate:122000,links:"No Follow"},
+  {url:"https://auto.economictimes.indiatimes.com/",lang:"English",cat:"Automotive",da:94,traffic:172.9,rate:91500,links:"No Follow"},
+  {url:"https://cfo.economictimes.indiatimes.com/",lang:"English",cat:"Finance & Business",da:94,traffic:172.9,rate:115900,links:"No Follow"},
+  {url:"https://health.economictimes.indiatimes.com/",lang:"English",cat:"Health & Wellness",da:94,traffic:172.9,rate:91500,links:"No Follow"},
+  {url:"https://www.onlymyhealth.com/",lang:"English",cat:"Health & Wellness",da:58,traffic:4.8,rate:30500,links:"No Follow"},
+  {url:"https://www.moneylife.in",lang:"English",cat:"Finance & Business",da:57,traffic:0.9,rate:28670,links:"Do Follow"},
+  {url:"https://www.dailypioneer.com/",lang:"English",cat:"General News",da:76,traffic:0.5,rate:34160,links:"Do Follow"},
+  {url:"https://www.mathrubhumi.com/",lang:"English",cat:"General News",da:80,traffic:3.2,rate:39650,links:"Do Follow"},
+  {url:"https://www.greatandhra.com",lang:"English",cat:"General News",da:60,traffic:11.0,rate:55510,links:"Do Follow"},
+  {url:"https://www.caclubindia.com",lang:"English",cat:"Finance & Business",da:50,traffic:2.0,rate:15860,links:"Do Follow"},
+  {url:"https://www.punekarnews.in/",lang:"English",cat:"General News",da:41,traffic:4.8,rate:7930,links:"No Follow"},
+  {url:"https://www.esakal.com",lang:"Marathi",cat:"General News",da:50,traffic:31.2,rate:39650,links:"No Follow"},
+  {url:"https://www.thehansindia.com/",lang:"English",cat:"News, Lifestyle & Entertainment",da:78,traffic:1.8,rate:23790,links:"Do Follow"},
+  {url:"https://english.jagran.com/",lang:"English",cat:"General News",da:83,traffic:8.9,rate:23790,links:"No Follow"},
+  {url:"https://www.nagpurtoday.in",lang:"English",cat:"General News",da:52,traffic:0.6,rate:15250,links:"Do Follow"},
+  {url:"https://www.assamtribune.com/",lang:"English",cat:"General News",da:56,traffic:0.3,rate:21960,links:"Do Follow"},
+  {url:"https://www.dinamani.com",lang:"Tamil",cat:"General News",da:47,traffic:0.01,rate:71370,links:"No Follow"},
+  {url:"https://www.anandabazar.com",lang:"Bengali",cat:"General News",da:53,traffic:0,rate:31720,links:"No Follow"},
+  {url:"https://indiablooms.com/",lang:"English",cat:"Finance & Business",da:59,traffic:0.02,rate:31720,links:"Do Follow"},
+  {url:"https://www.cricketcountry.com/",lang:"English",cat:"Sports",da:76,traffic:0.5,rate:12688,links:"No Follow"},
+  {url:"https://www.ptinews.com/",lang:"English",cat:"General News",da:66,traffic:0.2,rate:12200,links:"Do Follow"},
+  {url:"https://www.thelogicalindian.com/",lang:"English",cat:"General News",da:71,traffic:0.5,rate:12200,links:"Do Follow"},
+  {url:"https://www.goodmenproject.com/",lang:"English",cat:"General News",da:82,traffic:1.0,rate:13420,links:"Do Follow"},
+];
+
+RAW = RAW.map((d,i)=>({...d, id:i+1}));
+let nextId = RAW.length + 1;
+let ORDERS = [];
+let editingPubId = null;
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function getDomain(url){try{return new URL(url.startsWith('http')?url:'https://'+url).hostname.replace('www.','')}catch{return url}}
+function fmtTraffic(v){if(!v||v===0)return'—';if(v>=100)return(v).toFixed(0)+'Mn';if(v>=1)return v.toFixed(1)+'Mn';return(v*1000).toFixed(0)+'K'}
+function fmtRate(v){return'₹'+v.toLocaleString('en-IN')}
+function getLinkBadge(l){const lo=(l||'').toLowerCase();if(lo.includes('do'))return`<span class="badge badge-do">DoFollow</span>`;if(lo.includes('no'))return`<span class="badge badge-no">NoFollow</span>`;return`<span class="badge badge-sp">Sponsored</span>`;}
+function getLangBadge(l){const cl=l==='English'?'en':l==='Hindi'?'hi':'re';return`<span class="badge badge-${cl}">${l}</span>`;}
+function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type?type:'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+
+// ─── LOGIN ────────────────────────────────────────────────────────────────────
+function togglePw(){
+  const inp=document.getElementById('login-pw');
+  const eye=document.getElementById('pw-eye');
+  inp.type=inp.type==='password'?'text':'password';
+  eye.textContent=inp.type==='password'?'👁':'🙈';
+}
+
+function doLogin(){
+  const now=Date.now();
+  if(now<lockUntil){
+    const secs=Math.ceil((lockUntil-now)/1000);
+    showLoginError(`Too many attempts. Try again in ${secs}s.`);
+    return;
+  }
+  const idVal=document.getElementById('login-id').value.trim();
+  const pwVal=document.getElementById('login-pw').value;
+  const btn=document.getElementById('login-btn');
+  const spinner=document.getElementById('login-spinner');
+  const btnText=document.getElementById('login-btn-text');
+
+  btn.disabled=true;spinner.style.display='block';btnText.textContent='Signing in…';
+
+  setTimeout(()=>{
+    if(idVal===CREDS.id && pwVal===CREDS.pw){
+      failCount=0;
+      currentUser=idVal;
+      document.getElementById('login-error').classList.remove('show');
+      document.getElementById('login-id').classList.remove('error');
+      document.getElementById('login-pw').classList.remove('error');
+      // Show admin app
+      document.getElementById('login-screen').style.display='none';
+      document.getElementById('admin-app').classList.add('visible');
+      document.getElementById('nav-username').textContent=currentUser;
+      document.getElementById('nav-avatar').textContent=currentUser[0].toUpperCase();
+      initAdminApp();
+    } else {
+      failCount++;
+      if(failCount>=5){lockUntil=Date.now()+30000;failCount=0;}
+      document.getElementById('login-id').classList.add('error');
+      document.getElementById('login-pw').classList.add('error');
+      showLoginError(failCount>=4?'Account locked for 30 seconds after next failure.':'Invalid login ID or password.');
+    }
+    btn.disabled=false;spinner.style.display='none';btnText.textContent='Sign In →';
+  }, 700);
+}
+
+function showLoginError(msg){
+  document.getElementById('login-error-msg').textContent=msg;
+  document.getElementById('login-error').classList.add('show');
+}
+
+function logout(){
+  if(!confirm('Sign out of admin panel?')) return;
+  currentUser=null;
+  document.getElementById('admin-app').classList.remove('visible');
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('login-pw').value='';
+  document.getElementById('login-id').classList.remove('error');
+  document.getElementById('login-pw').classList.remove('error');
+  document.getElementById('login-error').classList.remove('show');
+}
+
+// ─── NAVIGATION ───────────────────────────────────────────────────────────────
+function goto(page){
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.classList.toggle('active',l.dataset.page===page));
+  document.getElementById('page-'+page).classList.add('active');
+  if(page==='dashboard') renderDashboard();
+  if(page==='publications') renderPubTable();
+  if(page==='orders') renderOrders();
+  if(page==='settings') renderSettings();
+}
+
+// ─── ADMIN INIT ───────────────────────────────────────────────────────────────
+function initAdminApp(){
+  populatePubFilters();
+  renderDashboard();
+  updateOrdersBadge();
+  // Populate settings fields
+  document.getElementById('new-login-id').value=CREDS.id;
+}
+
+// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+function renderDashboard(){
+  const totalPubs=RAW.length;
+  const avgDA=Math.round(RAW.reduce((s,d)=>s+d.da,0)/totalPubs);
+  const avgRate=Math.round(RAW.reduce((s,d)=>s+d.rate,0)/totalPubs);
+  const doFollow=RAW.filter(d=>(d.links||'').toLowerCase().includes('do follow')).length;
+  const cats=[...new Set(RAW.map(d=>d.cat))].length;
+  const langs=[...new Set(RAW.map(d=>d.lang))].length;
+  const totalOrders=ORDERS.length;
+  const totalRev=ORDERS.reduce((s,o)=>s+o.total,0);
+
+  document.getElementById('dash-stats').innerHTML=[
+    {icon:'📰',val:totalPubs,lbl:'Total Publications',orange:false},
+    {icon:'📈',val:avgDA,lbl:'Avg Domain Authority',orange:true},
+    {icon:'💰',val:fmtRate(avgRate),lbl:'Avg Rate / Article',orange:true},
+    {icon:'✅',val:doFollow,lbl:'DoFollow Pubs',orange:false},
+    {icon:'🗂',val:cats,lbl:'Categories',orange:false},
+    {icon:'🌐',val:langs,lbl:'Languages',orange:false},
+    {icon:'🛒',val:totalOrders,lbl:'Total Orders',orange:false},
+    {icon:'💵',val:totalRev?fmtRate(totalRev):'—',lbl:'Total Revenue',orange:true},
+  ].map(s=>`<div class="stat-card">
+    <div class="stat-icon">${s.icon}</div>
+    <div class="stat-val${s.orange?' orange':''}">${s.val}</div>
+    <div class="stat-lbl">${s.lbl}</div>
+  </div>`).join('');
+
+  const top10=[...RAW].sort((a,b)=>b.da-a.da).slice(0,10);
+  document.getElementById('top-pubs-body').innerHTML=top10.map(d=>`<tr>
+    <td><a class="td-domain" href="${d.url}" target="_blank" title="${d.url}">${getDomain(d.url)}</a></td>
+    <td><span class="td-da">${d.da}</span><span class="mini-bar"><span class="mini-bar-fill" style="width:${d.da}%"></span></span></td>
+    <td>${fmtTraffic(d.traffic)}</td>
+    <td class="td-rate">${fmtRate(d.rate)}</td>
+    <td style="font-size:12px;color:var(--mid);font-weight:500">${d.cat}</td>
+    <td>${getLangBadge(d.lang)}</td>
+  </tr>`).join('');
+}
+
+// ─── PUBLICATIONS ─────────────────────────────────────────────────────────────
+function populatePubFilters(){
+  const cats=[...new Set(RAW.map(d=>d.cat))].sort();
+  const langs=[...new Set(RAW.map(d=>d.lang))].sort();
+  const catSel=document.getElementById('pub-filter-cat');
+  const langSel=document.getElementById('pub-filter-lang');
+  catSel.innerHTML='<option value="">All Categories</option>'+cats.map(c=>`<option>${c}</option>`).join('');
+  langSel.innerHTML='<option value="">All Languages</option>'+langs.map(l=>`<option>${l}</option>`).join('');
+  // Also populate form cat dropdown
+  const fCat=document.getElementById('f-cat');
+  fCat.innerHTML=cats.map(c=>`<option>${c}</option>`).join('')+'<option value="__new__">+ New Category…</option>';
+}
+
+function getPubFiltered(){
+  const search=document.getElementById('pub-search').value.toLowerCase().trim();
+  const lang=document.getElementById('pub-filter-lang').value;
+  const cat=document.getElementById('pub-filter-cat').value;
+  return RAW.filter(d=>{
+    if(lang && d.lang!==lang) return false;
+    if(cat && d.cat!==cat) return false;
+    if(search && !getDomain(d.url).includes(search) && !d.cat.toLowerCase().includes(search) && !d.lang.toLowerCase().includes(search)) return false;
+    return true;
+  });
+}
+
+function renderPubTable(){
+  const data=getPubFiltered();
+  document.getElementById('pub-count-lbl').textContent=`Publications (${data.length}/${RAW.length})`;
+  document.getElementById('pub-table-footer').textContent=`Showing ${data.length} of ${RAW.length} publications`;
+  document.getElementById('pub-table-body').innerHTML=data.length===0
+    ?`<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--mid);font-weight:600">No publications match your filters</td></tr>`
+    :data.map(d=>`<tr>
+      <td><a class="td-domain" href="${d.url}" target="_blank" title="${d.url}">${getDomain(d.url)}</a></td>
+      <td><span class="td-da">${d.da}</span></td>
+      <td>${fmtTraffic(d.traffic)}</td>
+      <td class="td-rate">${fmtRate(d.rate)}</td>
+      <td style="font-size:12px;color:var(--mid);max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.cat}</td>
+      <td>${getLangBadge(d.lang)}</td>
+      <td>${getLinkBadge(d.links)}</td>
+      <td><div class="row-actions">
+        <button class="btn-edit" onclick="openPubModal(${d.id})">Edit</button>
+        <button class="btn-del" onclick="deletePub(${d.id})">Del</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function openPubModal(id){
+  editingPubId=id;
+  const isNew=!id;
+  document.getElementById('pub-modal-title').innerHTML=isNew?'Add <span>Publication</span>':'Edit <span>Publication</span>';
+  if(!isNew){
+    const d=RAW.find(r=>r.id===id);
+    if(!d) return;
+    document.getElementById('f-url').value=d.url;
+    document.getElementById('f-lang').value=d.lang;
+    document.getElementById('f-links').value=d.links;
+    document.getElementById('f-da').value=d.da;
+    document.getElementById('f-traffic').value=d.traffic;
+    document.getElementById('f-rate').value=d.rate;
+    // Set category
+    const fCat=document.getElementById('f-cat');
+    const opt=[...fCat.options].find(o=>o.value===d.cat);
+    if(opt) fCat.value=d.cat;
+  } else {
+    document.getElementById('f-url').value='';
+    document.getElementById('f-da').value='';
+    document.getElementById('f-traffic').value='';
+    document.getElementById('f-rate').value='';
+  }
+  document.getElementById('pub-modal').classList.add('open');
+  document.getElementById('f-url').focus();
+}
+
+function closePubModal(){
+  document.getElementById('pub-modal').classList.remove('open');
+  editingPubId=null;
+}
+
+function savePub(){
+  const url=document.getElementById('f-url').value.trim();
+  if(!url){document.getElementById('f-url').classList.add('invalid');return;}
+  document.getElementById('f-url').classList.remove('invalid');
+  let cat=document.getElementById('f-cat').value;
+  if(cat==='__new__'){
+    cat=prompt('Enter new category name:');
+    if(!cat) return;
+  }
+  const data={
+    url, cat,
+    lang:document.getElementById('f-lang').value,
+    links:document.getElementById('f-links').value,
+    da:parseInt(document.getElementById('f-da').value)||0,
+    traffic:parseFloat(document.getElementById('f-traffic').value)||0,
+    rate:parseInt(document.getElementById('f-rate').value)||0,
+  };
+  if(!editingPubId){
+    RAW.push({...data, id:nextId++});
+    showToast('✅ Publication added: '+getDomain(url),'success');
+  } else {
+    const idx=RAW.findIndex(r=>r.id===editingPubId);
+    if(idx>-1) RAW[idx]={...RAW[idx],...data};
+    showToast('✅ Updated: '+getDomain(url),'success');
+  }
+  closePubModal();
+  populatePubFilters();
+  renderPubTable();
+}
+
+function deletePub(id){
+  const d=RAW.find(r=>r.id===id);
+  if(!d||!confirm('Delete "'+getDomain(d.url)+'"? This cannot be undone.')) return;
+  RAW=RAW.filter(r=>r.id!==id);
+  showToast('Deleted: '+getDomain(d.url),'error-toast');
+  renderPubTable();
+}
+
+// ─── ORDERS ───────────────────────────────────────────────────────────────────
+function updateOrdersBadge(){
+  const badge=document.getElementById('orders-badge');
+  const newOrders=ORDERS.filter(o=>o.status==='New').length;
+  badge.textContent=newOrders;
+  badge.style.display=newOrders>0?'inline-block':'none';
+}
+
+function renderOrders(){
+  const c=document.getElementById('orders-container');
+  if(ORDERS.length===0){
+    c.innerHTML=`<div class="empty-state">
+      <div class="e-icon">📋</div>
+      <h3>No orders yet</h3>
+      <p>Orders placed by customers on the<br>media platforms page will appear here.</p>
+    </div>`;
+    return;
+  }
+  c.innerHTML=`<div class="orders-grid">${ORDERS.map(o=>`
+    <div class="order-card" id="oc-${o.id}">
+      <div class="order-top">
+        <div>
+          <div class="order-id">${o.id}</div>
+          <div class="order-name">${o.name}${o.company?` <span style="font-weight:500;font-size:13px;color:var(--mid)">· ${o.company}</span>`:''}</div>
+          <div class="order-contact">${o.email}${o.phone?' · '+o.phone:''}</div>
+        </div>
+        <div class="order-meta">
+          <span class="order-date">${o.date}</span>
+          <span class="status-badge ${o.status==='New'?'sb-new':o.status==='Processing'?'sb-processing':'sb-done'}">${o.status}</span>
+        </div>
+      </div>
+      ${o.brief?`<div class="order-brief">"${o.brief}"</div>`:''}
+      <div class="order-pubs">
+        <div class="order-pubs-title">Publications Ordered</div>
+        ${o.pubs.map(c=>`<div class="order-pub-item">
+          <span>${getDomain(c.pub.url)} <span style="font-size:11px;color:var(--mid)">· DA ${c.pub.da} · ${c.pub.cat}</span></span>
+          <span class="order-pub-price">${fmtRate(c.pub.rate)}</span>
+        </div>`).join('')}
+      </div>
+      <div class="order-total-row">
+        <span class="order-total-lbl">Total Amount</span>
+        <span class="order-total-val">${fmtRate(o.total)}</span>
+      </div>
+      <div class="order-actions">
+        ${o.status==='New'?`<button class="btn-status" onclick="setOrderStatus('${o.id}','Processing')">Mark Processing</button>`:''}
+        ${o.status==='Processing'?`<button class="btn-status" onclick="setOrderStatus('${o.id}','Completed')">Mark Completed</button>`:''}
+        <button class="btn-del-order" onclick="deleteOrder('${o.id}')">Remove</button>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function setOrderStatus(id, status){
+  const o=ORDERS.find(o=>o.id===id);
+  if(o){o.status=status;showToast('Order '+id+' → '+status,'success');}
+  updateOrdersBadge();
+  renderOrders();
+}
+
+function deleteOrder(id){
+  if(!confirm('Remove this order?')) return;
+  ORDERS=ORDERS.filter(o=>o.id!==id);
+  updateOrdersBadge();
+  renderOrders();
+}
+
+function clearOrders(){
+  if(!ORDERS.length){showToast('No orders to clear');return;}
+  if(!confirm('Delete ALL '+ORDERS.length+' orders? This cannot be undone.')) return;
+  ORDERS=[];
+  updateOrdersBadge();
+  renderSettings();
+  showToast('All orders cleared','error-toast');
+}
+
+// ─── SETTINGS ─────────────────────────────────────────────────────────────────
+function renderSettings(){
+  const totalPubs=RAW.length;
+  const langs=[...new Set(RAW.map(d=>d.lang))].length;
+  const cats=[...new Set(RAW.map(d=>d.cat))].length;
+  document.getElementById('settings-summary').innerHTML=
+    `Total publications: <strong>${totalPubs}</strong><br>
+     Languages covered: <strong>${langs}</strong><br>
+     Content categories: <strong>${cats}</strong><br>
+     Orders on record: <strong>${ORDERS.length}</strong><br>
+     Logged in as: <strong>${currentUser}</strong>`;
+}
+
+function updateCredentials(){
+  const newId=document.getElementById('new-login-id').value.trim();
+  const newPw=document.getElementById('new-pw').value;
+  const confirm=document.getElementById('confirm-pw').value;
+  const current=document.getElementById('current-pw').value;
+
+  if(current!==CREDS.pw){showToast('Current password is incorrect','error-toast');return;}
+  if(!newId){showToast('Login ID cannot be empty','error-toast');return;}
+  if(newPw && newPw!==confirm){showToast('New passwords do not match','error-toast');return;}
+
+  CREDS.id=newId;
+  if(newPw) CREDS.pw=newPw;
+  currentUser=newId;
+  document.getElementById('nav-username').textContent=newId;
+  document.getElementById('nav-avatar').textContent=newId[0].toUpperCase();
+  document.getElementById('current-pw').value='';
+  document.getElementById('new-pw').value='';
+  document.getElementById('confirm-pw').value='';
+  showToast('✅ Credentials updated successfully','success');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,474 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--ac:#D4960A;--a2:#F0AD12;--dk:#09090E;--d2:#111219;--d3:#161820;--lt:#F5F2EC;--mt:#8A9AB5;--bd:rgba(255,255,255,0.08)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:translateX(0)}}
+@keyframes countUp{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+@keyframes barGrow{from{width:0}}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+@keyframes ringExpand{0%{r:22;opacity:0.6}100%{r:60;opacity:0}}
+@keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes dashDraw{from{stroke-dashoffset:300}to{stroke-dashoffset:0}}
+@keyframes glowPulse{0%,100%{opacity:0.18}50%{opacity:0.38}}
+.sc{font-family:'DM Sans',sans-serif;width:100%;background:var(--dk);color:var(--lt);overflow:hidden}
+.sc-hero{position:relative;background:var(--dk);padding:64px 48px 60px;overflow:hidden}
+.sc-hero-content{position:relative;z-index:1;max-width:540px}
+.sc-eyebrow{font-size:11px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:var(--ac);margin-bottom:20px;display:flex;align-items:center;gap:12px;animation:slideIn .6s .1s ease both}
+.sc-eyebrow::before{content:'';width:32px;height:1.5px;background:var(--ac);flex-shrink:0}
+.sc-tag{display:inline-block;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--ac);border:0.5px solid rgba(212,150,10,0.45);padding:4px 10px;border-radius:2px;margin-bottom:20px;animation:fadeUp .6s .15s ease both}
+.sc-headline{font-family:'Playfair Display',Georgia,serif;font-size:46px;font-weight:900;line-height:1.1;color:var(--lt);margin:0 0 10px;animation:fadeUp .7s .2s ease both}
+.sc-headline em{color:var(--ac);font-style:italic}
+.sc-subhead{font-size:13px;color:var(--mt);letter-spacing:0.5px;margin-bottom:24px;animation:fadeUp .6s .3s ease both}
+.sc-divider{width:52px;height:2px;background:var(--ac);margin-bottom:28px;animation:slideIn .6s .35s ease both}
+.sc-tagline{font-size:15px;color:#C0CBDB;line-height:1.78;font-weight:300;animation:fadeUp .7s .4s ease both}
+.sc-tagline strong{color:var(--lt);font-weight:500}
+.sc-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;animation:fadeUp .6s .5s ease both}
+.sc-badge{font-size:11px;font-weight:500;padding:5px 13px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);color:var(--mt);background:rgba(255,255,255,0.04)}
+.sc-badge.on{border-color:rgba(212,150,10,0.5);color:var(--a2);background:rgba(212,150,10,0.07)}
+.sc-ticker{background:var(--ac);overflow:hidden;padding:11px 0}
+.sc-ticker-inner{display:flex;width:max-content;animation:marquee 22s linear infinite}
+.sc-ticker-item{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--dk);white-space:nowrap;padding:0 28px}
+.sc-ticker-item::after{content:'·';margin-left:28px}
+.sc-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--d2);border-top:0.5px solid var(--bd);border-bottom:0.5px solid var(--bd)}
+.sc-stat{padding:28px 24px;text-align:center;border-right:0.5px solid var(--bd);animation:countUp .6s ease both}
+.sc-stat:last-child{border-right:none}
+.sc-stat-num{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--lt);line-height:1;margin-bottom:6px}
+.sc-stat-num span{color:var(--a2)}
+.sc-stat-label{font-size:11px;color:var(--mt);line-height:1.45}
+.sc-body{padding:52px 48px}
+.sc-intro{font-size:15px;color:#9AAABB;line-height:1.85;margin-bottom:40px;animation:fadeUp .7s .2s ease both}
+.sc-intro strong{color:var(--lt);font-weight:500}
+.sc-sec-label{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--mt);margin-bottom:18px;padding-bottom:12px;border-bottom:0.5px solid var(--bd)}
+.sc-points{list-style:none;padding:0;margin:0 0 40px}
+.sc-points li{display:flex;align-items:flex-start;gap:16px;padding:13px 0;border-bottom:0.5px solid var(--bd);font-size:14px;color:var(--lt);line-height:1.55;animation:slideIn .5s ease both}
+.sc-points li:last-child{border-bottom:none}
+.sc-ico{width:32px;height:32px;border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.sc-ico.a{background:rgba(212,150,10,0.12);border:0.5px solid rgba(212,150,10,0.35)}
+.sc-ico.b{background:rgba(56,140,255,0.1);border:0.5px solid rgba(56,140,255,0.25)}
+.sc-ico.c{background:rgba(30,185,105,0.1);border:0.5px solid rgba(30,185,105,0.25)}
+.sc-ico.d{background:rgba(240,80,80,0.1);border:0.5px solid rgba(240,80,80,0.25)}
+.sc-ico.e{background:rgba(160,80,220,0.1);border:0.5px solid rgba(160,80,220,0.25)}
+.sc-pt{flex:1}
+.sc-pt b{font-weight:500;display:block;margin-bottom:3px}
+.sc-pt small{font-size:12px;color:var(--mt)}
+.sc-bar-row{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.sc-bar-lbl{font-size:12px;color:var(--mt);width:130px;flex-shrink:0}
+.sc-bar-track{flex:1;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden}
+.sc-bar-fill{height:100%;background:var(--ac);border-radius:2px;animation:barGrow 1.2s cubic-bezier(.4,0,.2,1) both}
+.sc-bar-val{font-size:12px;font-weight:500;color:var(--a2);width:36px;text-align:right}
+.sc-plat-box{background:var(--d2);border:0.5px solid var(--bd);border-radius:4px;padding:24px;margin-bottom:40px}
+.sc-plat-title{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--mt);margin-bottom:16px}
+.sc-pills{display:flex;flex-wrap:wrap;gap:8px}
+.sc-pill{font-size:12px;font-weight:500;padding:6px 14px;border-radius:2px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.1);color:var(--lt)}
+.sc-pill.more{color:var(--mt);font-style:italic}
+.sc-vstrip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--ac);margin-bottom:0;border-radius:4px;overflow:hidden}
+.sc-vi{padding:20px;text-align:center;border-right:0.5px solid rgba(0,0,0,0.15)}
+.sc-vi:last-child{border-right:none}
+.sc-vi-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(9,9,14,0.6);margin-bottom:6px}
+.sc-vi-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dk)}
+.sc-cta{position:relative;text-align:center;padding:56px 40px 52px;background:var(--d2);overflow:hidden}
+.sc-cta-content{position:relative;z-index:1}
+.sc-cta-head{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--lt);margin-bottom:8px}
+.sc-cta-head em{color:var(--ac);font-style:italic}
+.sc-cta-sub{font-size:14px;color:var(--mt);margin-bottom:28px}
+.sc-btn-row{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}
+.sc-btn-main{display:inline-block;background:var(--ac);color:var(--dk);font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:15px 36px;border-radius:2px;text-decoration:none}
+.sc-btn-wa{display:inline-flex;align-items:center;gap:9px;background:transparent;color:#4CAF79;font-size:12px;font-weight:500;padding:14px 24px;border-radius:2px;text-decoration:none;border:0.5px solid rgba(76,175,121,0.35)}
+.sc-wa-dot{width:7px;height:7px;border-radius:50%;background:#4CAF79;animation:pulse 2s infinite}
+.sc-footer{background:var(--dk);border-top:0.5px solid var(--bd);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.sc-logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--lt)}
+.sc-logo span{color:var(--ac)}
+.sc-logo-sub{font-size:10px;color:var(--mt);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+.sc-footer-links{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.sc-footer-link{font-size:12px;color:var(--mt);text-decoration:none}
+@media(max-width:600px){.sc-hero,.sc-body{padding:36px 22px}.sc-headline{font-size:32px}.sc-stats{grid-template-columns:repeat(2,1fr)}.sc-stat:nth-child(2){border-right:none}.sc-footer{padding:18px 22px;flex-direction:column;text-align:center}.sc-footer-links{align-items:center}.sc-btn-row{flex-direction:column}}
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Savin Communication Digital PR Programme 2026 — full-width design with PR media graphics</h2>
+
+<div class="sc">
+
+  <!-- ═══ HERO ═══ -->
+  <div class="sc-hero">
+    <!-- Network constellation background -->
+    <svg style="position:absolute;top:0;right:0;width:58%;height:100%;z-index:0" viewBox="0 0 580 440" preserveAspectRatio="xMidYMid slice">
+      <!-- Outer reach rings -->
+      <circle cx="380" cy="220" r="230" fill="none" stroke="#D4960A" stroke-width="0.4" stroke-dasharray="3,12" opacity="0.12" style="animation:glowPulse 4s ease-in-out infinite"/>
+      <circle cx="380" cy="220" r="160" fill="none" stroke="#D4960A" stroke-width="0.5" stroke-dasharray="5,8" opacity="0.16"/>
+      <circle cx="380" cy="220" r="90" fill="none" stroke="#D4960A" stroke-width="0.7" stroke-dasharray="4,5" opacity="0.22"/>
+      <!-- Lines to inner nodes -->
+      <line x1="380" y1="220" x2="470" y2="220" stroke="#D4960A" stroke-width="0.7" opacity="0.22"/>
+      <line x1="380" y1="220" x2="425" y2="298" stroke="#D4960A" stroke-width="0.7" opacity="0.22"/>
+      <line x1="380" y1="220" x2="335" y2="298" stroke="#D4960A" stroke-width="0.7" opacity="0.22"/>
+      <line x1="380" y1="220" x2="290" y2="220" stroke="#D4960A" stroke-width="0.7" opacity="0.22"/>
+      <line x1="380" y1="220" x2="335" y2="142" stroke="#D4960A" stroke-width="0.7" opacity="0.22"/>
+      <line x1="380" y1="220" x2="425" y2="142" stroke="#D4960A" stroke-width="0.7" opacity="0.22"/>
+      <!-- Inner media nodes -->
+      <circle cx="470" cy="220" r="7" fill="#F0AD12" opacity="0.55" style="animation:floatY 5s 0s ease-in-out infinite"/>
+      <circle cx="425" cy="298" r="7" fill="#F0AD12" opacity="0.55" style="animation:floatY 5s 0.8s ease-in-out infinite"/>
+      <circle cx="335" cy="298" r="7" fill="#F0AD12" opacity="0.55" style="animation:floatY 5s 1.6s ease-in-out infinite"/>
+      <circle cx="290" cy="220" r="7" fill="#F0AD12" opacity="0.55" style="animation:floatY 5s 2.4s ease-in-out infinite"/>
+      <circle cx="335" cy="142" r="7" fill="#F0AD12" opacity="0.55" style="animation:floatY 5s 3.2s ease-in-out infinite"/>
+      <circle cx="425" cy="142" r="7" fill="#F0AD12" opacity="0.55" style="animation:floatY 5s 4s ease-in-out infinite"/>
+      <!-- Lines to outer nodes -->
+      <line x1="470" y1="220" x2="540" y2="220" stroke="#D4960A" stroke-width="0.4" opacity="0.14"/>
+      <line x1="425" y1="298" x2="490" y2="350" stroke="#D4960A" stroke-width="0.4" opacity="0.14"/>
+      <line x1="335" y1="298" x2="270" y2="350" stroke="#D4960A" stroke-width="0.4" opacity="0.14"/>
+      <line x1="290" y1="220" x2="220" y2="220" stroke="#D4960A" stroke-width="0.4" opacity="0.14"/>
+      <line x1="335" y1="142" x2="270" y2="90" stroke="#D4960A" stroke-width="0.4" opacity="0.14"/>
+      <line x1="425" y1="142" x2="490" y2="90" stroke="#D4960A" stroke-width="0.4" opacity="0.14"/>
+      <line x1="380" y1="220" x2="380" y2="60" stroke="#D4960A" stroke-width="0.4" opacity="0.12"/>
+      <line x1="380" y1="220" x2="380" y2="380" stroke="#D4960A" stroke-width="0.4" opacity="0.12"/>
+      <!-- Outer nodes -->
+      <circle cx="540" cy="220" r="4" fill="#D4960A" opacity="0.3"/>
+      <circle cx="490" cy="350" r="4" fill="#D4960A" opacity="0.3"/>
+      <circle cx="270" cy="350" r="4" fill="#D4960A" opacity="0.3"/>
+      <circle cx="220" cy="220" r="4" fill="#D4960A" opacity="0.3"/>
+      <circle cx="270" cy="90"  r="4" fill="#D4960A" opacity="0.3"/>
+      <circle cx="490" cy="90"  r="4" fill="#D4960A" opacity="0.3"/>
+      <circle cx="380" cy="60"  r="4" fill="#D4960A" opacity="0.3"/>
+      <circle cx="380" cy="380" r="4" fill="#D4960A" opacity="0.3"/>
+      <!-- Cross-connections -->
+      <line x1="470" y1="220" x2="425" y2="298" stroke="#D4960A" stroke-width="0.3" opacity="0.1"/>
+      <line x1="425" y1="142" x2="470" y2="220" stroke="#D4960A" stroke-width="0.3" opacity="0.1"/>
+      <line x1="335" y1="298" x2="425" y2="298" stroke="#D4960A" stroke-width="0.3" opacity="0.1"/>
+      <line x1="290" y1="220" x2="335" y2="298" stroke="#D4960A" stroke-width="0.3" opacity="0.1"/>
+      <line x1="335" y1="142" x2="425" y2="142" stroke="#D4960A" stroke-width="0.3" opacity="0.1"/>
+      <!-- Scatter impression dots -->
+      <circle cx="500" cy="140" r="2" fill="#D4960A" opacity="0.25"/>
+      <circle cx="455" cy="360" r="2.5" fill="#D4960A" opacity="0.2"/>
+      <circle cx="300" cy="310" r="1.5" fill="#D4960A" opacity="0.3"/>
+      <circle cx="550" cy="290" r="2" fill="#D4960A" opacity="0.2"/>
+      <circle cx="250" cy="150" r="2" fill="#D4960A" opacity="0.22"/>
+      <circle cx="520" cy="80" r="1.5" fill="#D4960A" opacity="0.18"/>
+      <circle cx="230" cy="320" r="2" fill="#D4960A" opacity="0.2"/>
+      <circle cx="440" cy="40" r="1.5" fill="#D4960A" opacity="0.22"/>
+      <!-- Center brand diamond -->
+      <polygon points="380,200 400,220 380,240 360,220" fill="#D4960A" opacity="0.55" style="animation:pulse 3s ease-in-out infinite"/>
+      <circle cx="380" cy="220" r="26" fill="none" stroke="#D4960A" stroke-width="0.8" opacity="0.28"/>
+      <circle cx="380" cy="220" r="36" fill="none" stroke="#D4960A" stroke-width="0.5" opacity="0.15"/>
+    </svg>
+    <div class="sc-hero-content">
+      <div class="sc-eyebrow">India's Digital PR Leader</div>
+      <div class="sc-tag">Growth Programme 2026</div>
+      <h1 class="sc-headline">Your competitors are<br>on <em>20+ platforms.</em><br>Are you?</h1>
+      <div class="sc-subhead">Savin Communication · Digital PR Programme</div>
+      <div class="sc-divider"></div>
+      <p class="sc-tagline">For the cost of a <strong>single newspaper ad</strong>, we place your brand across <strong>20+ premium digital platforms</strong> — reaching over <strong>100M monthly readers</strong> in one coordinated campaign.</p>
+      <div class="sc-badges">
+        <span class="sc-badge on">National News</span><span class="sc-badge on">Finance</span><span class="sc-badge on">Technology</span><span class="sc-badge">Automotive</span><span class="sc-badge">Entertainment</span><span class="sc-badge">Lifestyle</span><span class="sc-badge">Sports</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TICKER ═══ -->
+  <div class="sc-ticker">
+    <div class="sc-ticker-inner">
+      <span class="sc-ticker-item">ABP News</span><span class="sc-ticker-item">TV9 Hindi</span><span class="sc-ticker-item">GoodReturns</span><span class="sc-ticker-item">GizBot</span><span class="sc-ticker-item">Filmibeat</span><span class="sc-ticker-item">The Statesman</span><span class="sc-ticker-item">100M+ Readers</span><span class="sc-ticker-item">2B+ Impressions</span><span class="sc-ticker-item">96% Retention</span><span class="sc-ticker-item">7+ Years</span>
+      <span class="sc-ticker-item">ABP News</span><span class="sc-ticker-item">TV9 Hindi</span><span class="sc-ticker-item">GoodReturns</span><span class="sc-ticker-item">GizBot</span><span class="sc-ticker-item">Filmibeat</span><span class="sc-ticker-item">The Statesman</span><span class="sc-ticker-item">100M+ Readers</span><span class="sc-ticker-item">2B+ Impressions</span><span class="sc-ticker-item">96% Retention</span><span class="sc-ticker-item">7+ Years</span>
+    </div>
+  </div>
+
+  <!-- ═══ STATS ═══ -->
+  <div class="sc-stats">
+    <div class="sc-stat" style="animation-delay:.3s"><div class="sc-stat-num">20<span>+</span></div><div class="sc-stat-label">Premium<br>Platforms</div></div>
+    <div class="sc-stat" style="animation-delay:.45s"><div class="sc-stat-num">100<span>M+</span></div><div class="sc-stat-label">Monthly<br>Readers</div></div>
+    <div class="sc-stat" style="animation-delay:.6s"><div class="sc-stat-num">2<span>B+</span></div><div class="sc-stat-label">Content<br>Impressions</div></div>
+    <div class="sc-stat" style="animation-delay:.75s"><div class="sc-stat-num">96<span>%</span></div><div class="sc-stat-label">Client<br>Retention</div></div>
+  </div>
+
+  <!-- ═══ MEDIA ECOSYSTEM VISUAL ═══ -->
+  <div style="background:var(--d3);padding:40px 48px;border-bottom:0.5px solid var(--bd)">
+    <div style="font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--mt);margin-bottom:28px;text-align:center">The Omnichannel PR Ecosystem</div>
+    <svg width="100%" viewBox="0 0 860 160" style="display:block;overflow:visible">
+      <!-- YOUR BRAND node -->
+      <rect x="10" y="55" width="100" height="50" rx="3" fill="rgba(212,150,10,0.12)" stroke="#D4960A" stroke-width="1"/>
+      <text x="60" y="77" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#D4960A" font-weight="500">YOUR</text>
+      <text x="60" y="92" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#D4960A" font-weight="500">BRAND</text>
+      <polygon points="60,103 68,113 60,112 52,113" fill="#D4960A" opacity="0.4"/>
+      <!-- Arrow from brand to channels -->
+      <line x1="110" y1="80" x2="170" y2="80" stroke="#D4960A" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+      <polygon points="170,76 178,80 170,84" fill="#D4960A" opacity="0.5"/>
+
+      <!-- TV channel -->
+      <g transform="translate(185,48)">
+        <rect x="0" y="0" width="54" height="40" rx="3" fill="none" stroke="#8A9AB5" stroke-width="1"/>
+        <rect x="6" y="6" width="42" height="26" rx="1" fill="none" stroke="#8A9AB5" stroke-width="0.7"/>
+        <rect x="20" y="40" width="14" height="5" fill="none" stroke="#8A9AB5" stroke-width="0.7"/>
+        <line x1="14" y1="45" x2="40" y2="45" stroke="#8A9AB5" stroke-width="1"/>
+        <line x1="18" y1="12" x2="36" y2="12" stroke="#8A9AB5" stroke-width="0.5" opacity="0.5"/>
+        <line x1="18" y1="16" x2="36" y2="16" stroke="#8A9AB5" stroke-width="0.5" opacity="0.5"/>
+        <line x1="18" y1="20" x2="30" y2="20" stroke="#8A9AB5" stroke-width="0.5" opacity="0.5"/>
+        <text x="27" y="60" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB5">TV</text>
+      </g>
+
+      <!-- Radio/Broadcast tower -->
+      <g transform="translate(263,38)">
+        <line x1="27" y1="12" x2="27" y2="45" stroke="#8A9AB5" stroke-width="1.5"/>
+        <line x1="27" y1="36" x2="15" y2="50" stroke="#8A9AB5" stroke-width="1.5"/>
+        <line x1="27" y1="36" x2="39" y2="50" stroke="#8A9AB5" stroke-width="1.5"/>
+        <line x1="15" y1="50" x2="39" y2="50" stroke="#8A9AB5" stroke-width="1"/>
+        <path d="M18,18 a14,14 0 0,1 18,0" fill="none" stroke="#D4960A" stroke-width="1.5"/>
+        <path d="M12,12 a20,20 0 0,1 30,0" fill="none" stroke="#D4960A" stroke-width="1.2"/>
+        <path d="M7,7 a26,26 0 0,1 40,0" fill="none" stroke="#D4960A" stroke-width="0.8" opacity="0.6"/>
+        <circle cx="27" cy="12" r="3" fill="#D4960A"/>
+        <text x="27" y="66" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB5">Broadcast</text>
+      </g>
+
+      <!-- Newspaper/Print -->
+      <g transform="translate(348,43)">
+        <rect x="0" y="0" width="54" height="58" rx="2" fill="none" stroke="#8A9AB5" stroke-width="1"/>
+        <rect x="5" y="6" width="44" height="16" rx="1" fill="none" stroke="#8A9AB5" stroke-width="0.7"/>
+        <line x1="5" y1="28" x2="49" y2="28" stroke="#8A9AB5" stroke-width="0.6"/>
+        <line x1="5" y1="34" x2="49" y2="34" stroke="#8A9AB5" stroke-width="0.6"/>
+        <line x1="5" y1="40" x2="38" y2="40" stroke="#8A9AB5" stroke-width="0.6"/>
+        <line x1="5" y1="46" x2="44" y2="46" stroke="#8A9AB5" stroke-width="0.6"/>
+        <line x1="5" y1="52" x2="30" y2="52" stroke="#8A9AB5" stroke-width="0.6"/>
+        <text x="27" y="73" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB5">Print</text>
+      </g>
+
+      <!-- Smartphone/Digital -->
+      <g transform="translate(435,40)">
+        <rect x="10" y="0" width="34" height="56" rx="5" fill="none" stroke="#8A9AB5" stroke-width="1"/>
+        <line x1="18" y1="7" x2="36" y2="7" stroke="#8A9AB5" stroke-width="1.2"/>
+        <circle cx="27" cy="50" r="3" fill="none" stroke="#8A9AB5" stroke-width="1"/>
+        <rect x="14" y="11" width="26" height="34" rx="1" fill="none" stroke="#8A9AB5" stroke-width="0.6"/>
+        <line x1="18" y1="18" x2="36" y2="18" stroke="#D4960A" stroke-width="0.7" opacity="0.7"/>
+        <line x1="18" y1="22" x2="34" y2="22" stroke="#D4960A" stroke-width="0.7" opacity="0.7"/>
+        <line x1="18" y1="26" x2="30" y2="26" stroke="#D4960A" stroke-width="0.7" opacity="0.5"/>
+        <text x="27" y="70" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB5">Digital</text>
+      </g>
+
+      <!-- Globe/Web -->
+      <g transform="translate(518,38)">
+        <circle cx="27" cy="27" r="24" fill="none" stroke="#8A9AB5" stroke-width="1"/>
+        <ellipse cx="27" cy="27" rx="11" ry="24" fill="none" stroke="#8A9AB5" stroke-width="0.7"/>
+        <ellipse cx="27" cy="27" rx="24" ry="10" fill="none" stroke="#8A9AB5" stroke-width="0.7"/>
+        <line x1="3" y1="27" x2="51" y2="27" stroke="#8A9AB5" stroke-width="0.5"/>
+        <line x1="27" y1="3" x2="27" y2="51" stroke="#8A9AB5" stroke-width="0.5"/>
+        <circle cx="38" cy="18" r="3" fill="#D4960A" opacity="0.7" style="animation:pulse 2.5s ease-in-out infinite"/>
+        <circle cx="16" cy="34" r="2" fill="#D4960A" opacity="0.5" style="animation:pulse 2.5s .8s ease-in-out infinite"/>
+        <circle cx="42" cy="36" r="2" fill="#D4960A" opacity="0.5" style="animation:pulse 2.5s 1.4s ease-in-out infinite"/>
+        <text x="27" y="65" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB5">Web</text>
+      </g>
+
+      <!-- Arrow to audience -->
+      <line x1="580" y1="80" x2="640" y2="80" stroke="#D4960A" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+      <polygon points="640,76 648,80 640,84" fill="#D4960A" opacity="0.5"/>
+
+      <!-- AUDIENCE node -->
+      <rect x="650" y="50" width="120" height="60" rx="3" fill="rgba(212,150,10,0.08)" stroke="rgba(212,150,10,0.35)" stroke-width="0.8"/>
+      <text x="710" y="74" text-anchor="middle" font-family="Playfair Display,Georgia,serif" font-size="18" fill="#F0AD12" font-weight="700">100M+</text>
+      <text x="710" y="91" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#8A9AB5" font-weight="500">monthly readers</text>
+
+      <!-- Subtle lines connecting channels to audience bar -->
+      <line x1="239" y1="80" x2="170" y2="80" stroke="#D4960A" stroke-width="0.3" opacity="0.2"/>
+      <line x1="213" y1="80" x2="578" y2="80" stroke="#D4960A" stroke-width="0.3" opacity="0.08" stroke-dasharray="2,6"/>
+    </svg>
+  </div>
+
+  <!-- ═══ BODY ═══ -->
+  <div class="sc-body">
+    <!-- Intro with decorative quote mark -->
+    <div style="position:relative;padding-left:36px;margin-bottom:40px;animation:fadeUp .7s .2s ease both">
+      <svg style="position:absolute;left:0;top:-4px;opacity:0.18" width="28" height="28" viewBox="0 0 28 28">
+        <path d="M4,18 C4,10 9,4 16,3 L17,6 C13,7 11,10 11,13 L11,13 C12.5,13 14,14.5 14,16.5 C14,18.5 12.5,20 10.5,20 C7.5,20 4,18 4,14 Z" fill="#D4960A"/>
+        <path d="M16,18 C16,10 21,4 28,3 L29,6 C25,7 23,10 23,13 C24.5,13 26,14.5 26,16.5 C26,18.5 24.5,20 22.5,20 C19.5,20 16,18 16,14 Z" fill="#D4960A"/>
+      </svg>
+      <p class="sc-intro" style="margin:0">Hello,<br><br>Let me make this simple. We've spent <strong>7+ years</strong> helping startups, SMEs, and scaling brands punch above their weight. The results are consistent — <strong>more visibility, more credibility, less spend.</strong></p>
+    </div>
+
+    <!-- PR Process Flow -->
+    <div style="margin-bottom:44px;border:0.5px solid var(--bd);border-radius:4px;background:var(--d2);padding:28px 24px">
+      <div class="sc-sec-label" style="margin-bottom:24px">How we do it</div>
+      <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;position:relative">
+        <!-- Connecting line -->
+        <div style="position:absolute;top:28px;left:10%;right:10%;height:0.5px;background:linear-gradient(to right,rgba(212,150,10,0.3),rgba(212,150,10,0.1));z-index:0"></div>
+
+        <!-- Step 1: Discover -->
+        <div style="text-align:center;position:relative;z-index:1;padding:0 8px">
+          <div style="width:56px;height:56px;margin:0 auto 12px;border:1px solid rgba(212,150,10,0.5);border-radius:2px;display:flex;align-items:center;justify-content:center;background:var(--d3)">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="#D4960A" stroke-width="1.5"/>
+              <line x1="19" y1="19" x2="26" y2="26" stroke="#D4960A" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="9" y1="12" x2="15" y2="12" stroke="#D4960A" stroke-width="1" opacity="0.6"/>
+              <line x1="12" y1="9" x2="12" y2="15" stroke="#D4960A" stroke-width="1" opacity="0.6"/>
+            </svg>
+          </div>
+          <div style="font-size:11px;font-weight:500;color:var(--lt);margin-bottom:3px">Discovery</div>
+          <div style="font-size:10px;color:var(--mt);line-height:1.4">Brand audit &amp; goals</div>
+        </div>
+
+        <!-- Step 2: Strategy -->
+        <div style="text-align:center;position:relative;z-index:1;padding:0 8px">
+          <div style="width:56px;height:56px;margin:0 auto 12px;border:1px solid rgba(212,150,10,0.5);border-radius:2px;display:flex;align-items:center;justify-content:center;background:var(--d3)">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <circle cx="14" cy="14" r="12" stroke="#D4960A" stroke-width="1.2"/>
+              <circle cx="14" cy="14" r="7" stroke="#D4960A" stroke-width="1.2"/>
+              <circle cx="14" cy="14" r="3" fill="#D4960A"/>
+              <line x1="14" y1="2" x2="14" y2="6" stroke="#D4960A" stroke-width="1" opacity="0.5"/>
+              <line x1="14" y1="22" x2="14" y2="26" stroke="#D4960A" stroke-width="1" opacity="0.5"/>
+            </svg>
+          </div>
+          <div style="font-size:11px;font-weight:500;color:var(--lt);margin-bottom:3px">Strategy</div>
+          <div style="font-size:10px;color:var(--mt);line-height:1.4">Custom PR roadmap</div>
+        </div>
+
+        <!-- Step 3: Create -->
+        <div style="text-align:center;position:relative;z-index:1;padding:0 8px">
+          <div style="width:56px;height:56px;margin:0 auto 12px;border:1px solid rgba(212,150,10,0.5);border-radius:2px;display:flex;align-items:center;justify-content:center;background:var(--d3)">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <path d="M4,22 L6,16 L20,4 L24,8 L10,22 Z" stroke="#D4960A" stroke-width="1.2" stroke-linejoin="round"/>
+              <line x1="6" y1="16" x2="12" y2="22" stroke="#D4960A" stroke-width="1.2"/>
+              <path d="M17,7 L21,11" stroke="#D4960A" stroke-width="1.2"/>
+              <line x1="4" y1="24" x2="24" y2="24" stroke="#D4960A" stroke-width="1" opacity="0.4"/>
+            </svg>
+          </div>
+          <div style="font-size:11px;font-weight:500;color:var(--lt);margin-bottom:3px">Creation</div>
+          <div style="font-size:10px;color:var(--mt);line-height:1.4">Compelling content</div>
+        </div>
+
+        <!-- Step 4: Distribute -->
+        <div style="text-align:center;position:relative;z-index:1;padding:0 8px">
+          <div style="width:56px;height:56px;margin:0 auto 12px;border:1px solid rgba(212,150,10,0.5);border-radius:2px;display:flex;align-items:center;justify-content:center;background:var(--d3)">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <line x1="14" y1="26" x2="14" y2="14" stroke="#D4960A" stroke-width="1.5"/>
+              <line x1="14" y1="18" x2="8" y2="24" stroke="#D4960A" stroke-width="1.5"/>
+              <line x1="14" y1="18" x2="20" y2="24" stroke="#D4960A" stroke-width="1.5"/>
+              <path d="M7,10 a9,9 0 0,1 14,0" stroke="#D4960A" stroke-width="1.5" fill="none"/>
+              <path d="M4,7 a13,13 0 0,1 20,0" stroke="#D4960A" stroke-width="1.2" fill="none" opacity="0.7"/>
+              <path d="M1,4 a17,17 0 0,1 26,0" stroke="#D4960A" stroke-width="0.8" fill="none" opacity="0.4"/>
+              <circle cx="14" cy="14" r="2.5" fill="#D4960A"/>
+            </svg>
+          </div>
+          <div style="font-size:11px;font-weight:500;color:var(--lt);margin-bottom:3px">Distribution</div>
+          <div style="font-size:10px;color:var(--mt);line-height:1.4">Multi-platform rollout</div>
+        </div>
+
+        <!-- Step 5: Measure -->
+        <div style="text-align:center;position:relative;z-index:1;padding:0 8px">
+          <div style="width:56px;height:56px;margin:0 auto 12px;border:1px solid rgba(212,150,10,0.5);border-radius:2px;display:flex;align-items:center;justify-content:center;background:var(--d3)">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <line x1="2" y1="26" x2="26" y2="26" stroke="#D4960A" stroke-width="1.2"/>
+              <line x1="2" y1="2" x2="2" y2="26" stroke="#D4960A" stroke-width="1.2"/>
+              <rect x="5" y="16" width="5" height="10" fill="#D4960A" opacity="0.35" stroke="#D4960A" stroke-width="0.8"/>
+              <rect x="12" y="10" width="5" height="16" fill="#D4960A" opacity="0.55" stroke="#D4960A" stroke-width="0.8"/>
+              <rect x="19" y="5" width="5" height="21" fill="#D4960A" opacity="0.75" stroke="#D4960A" stroke-width="0.8"/>
+              <path d="M5,19 L12,13 L19,8" stroke="#F0AD12" stroke-width="1" fill="none"/>
+            </svg>
+          </div>
+          <div style="font-size:11px;font-weight:500;color:var(--lt);margin-bottom:3px">Measure</div>
+          <div style="font-size:10px;color:var(--mt);line-height:1.4">Analytics &amp; insights</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What you get -->
+    <div class="sc-sec-label">What you get</div>
+    <ul class="sc-points">
+      <li style="animation-delay:.1s">
+        <div class="sc-ico a"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#D4960A" stroke-width="1.2"/><circle cx="8" cy="8" r="2" fill="#D4960A"/><line x1="8" y1="2" x2="8" y2="4" stroke="#D4960A" stroke-width="1"/><line x1="8" y1="12" x2="8" y2="14" stroke="#D4960A" stroke-width="1"/><line x1="2" y1="8" x2="4" y2="8" stroke="#D4960A" stroke-width="1"/><line x1="12" y1="8" x2="14" y2="8" stroke="#D4960A" stroke-width="1"/></svg></div>
+        <div class="sc-pt"><b>20+ platforms — national to niche</b><small>National news, regional media, finance, tech, auto, lifestyle &amp; sports</small></div>
+      </li>
+      <li style="animation-delay:.2s">
+        <div class="sc-ico b"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5" cy="6" r="2.5" stroke="#3884FF" stroke-width="1.2"/><circle cx="11" cy="6" r="2.5" stroke="#3884FF" stroke-width="1.2"/><path d="M1,14 C1,11 3,9 5,9 C7,9 9,11 9,14" stroke="#3884FF" stroke-width="1.2" fill="none"/><path d="M9,10 C10,9 12,9 13,9 C15,9 15,11 15,14" stroke="#3884FF" stroke-width="1.2" fill="none" opacity="0.6"/></svg></div>
+        <div class="sc-pt"><b>100M+ monthly readers</b><small>Reach across Hindi &amp; English audiences simultaneously</small></div>
+      </li>
+      <li style="animation-delay:.3s">
+        <div class="sc-ico c"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8,1 L10,6 L15,6 L11,9.5 L12.5,15 L8,12 L3.5,15 L5,9.5 L1,6 L6,6 Z" stroke="#1EB464" stroke-width="1.1" stroke-linejoin="round"/></svg></div>
+        <div class="sc-pt"><b>Starting at ₹7,500 per article</b><small>Built for startups, SMEs &amp; growth brands — premium reach, affordable entry</small></div>
+      </li>
+      <li style="animation-delay:.4s">
+        <div class="sc-ico d"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polyline points="1,13 5,8 9,10 15,3" stroke="#FF503C" stroke-width="1.4" fill="none" stroke-linejoin="round"/><circle cx="15" cy="3" r="2" fill="#FF503C"/></svg></div>
+        <div class="sc-pt"><b>2B+ cumulative content impressions</b><small>Proven delivery track record over 7+ years of operation</small></div>
+      </li>
+      <li style="animation-delay:.5s">
+        <div class="sc-ico e"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="5" width="14" height="9" rx="2" stroke="#A050DC" stroke-width="1.2"/><path d="M5,5 L5,3 C5,2 6,1 8,1 C10,1 11,2 11,3 L11,5" stroke="#A050DC" stroke-width="1.2" fill="none"/><circle cx="8" cy="9.5" r="1.5" fill="#A050DC"/></svg></div>
+        <div class="sc-pt"><b>One company. One relationship. One invoice.</b><small>Zero coordination overhead — we handle everything end to end</small></div>
+      </li>
+    </ul>
+
+    <!-- Performance bars -->
+    <div style="margin-bottom:40px">
+      <div class="sc-sec-label">Performance benchmarks</div>
+      <div class="sc-bar-row"><span class="sc-bar-lbl">Media Coverage</span><div class="sc-bar-track"><div class="sc-bar-fill" style="width:92%;animation-delay:.1s"></div></div><span class="sc-bar-val">92%</span></div>
+      <div class="sc-bar-row"><span class="sc-bar-lbl">Brand Visibility</span><div class="sc-bar-track"><div class="sc-bar-fill" style="width:88%;animation-delay:.25s"></div></div><span class="sc-bar-val">88%</span></div>
+      <div class="sc-bar-row"><span class="sc-bar-lbl">ORM Improvement</span><div class="sc-bar-track"><div class="sc-bar-fill" style="width:94%;animation-delay:.4s"></div></div><span class="sc-bar-val">94%</span></div>
+      <div class="sc-bar-row"><span class="sc-bar-lbl">Client Retention</span><div class="sc-bar-track"><div class="sc-bar-fill" style="width:96%;animation-delay:.55s"></div></div><span class="sc-bar-val">96%</span></div>
+      <div class="sc-bar-row"><span class="sc-bar-lbl">Deadline Adherence</span><div class="sc-bar-track"><div class="sc-bar-fill" style="width:100%;animation-delay:.7s"></div></div><span class="sc-bar-val">100%</span></div>
+    </div>
+
+    <!-- Platforms with globe illustration -->
+    <div class="sc-sec-label">Featured platforms</div>
+    <div style="position:relative;background:var(--d2);border:0.5px solid var(--bd);border-radius:4px;padding:24px;margin-bottom:40px;overflow:hidden">
+      <!-- Globe watermark -->
+      <svg style="position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:0.06" width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="55" fill="none" stroke="#D4960A" stroke-width="1.5"/>
+        <ellipse cx="60" cy="60" rx="28" ry="55" fill="none" stroke="#D4960A" stroke-width="1"/>
+        <ellipse cx="60" cy="60" rx="55" ry="22" fill="none" stroke="#D4960A" stroke-width="1"/>
+        <ellipse cx="60" cy="60" rx="55" ry="38" fill="none" stroke="#D4960A" stroke-width="0.7"/>
+        <line x1="5" y1="60" x2="115" y2="60" stroke="#D4960A" stroke-width="0.7"/>
+        <line x1="60" y1="5" x2="60" y2="115" stroke="#D4960A" stroke-width="0.7"/>
+      </svg>
+      <div class="sc-plat-title" style="position:relative;z-index:1">Where your brand will appear</div>
+      <div class="sc-pills" style="position:relative;z-index:1">
+        <span class="sc-pill">ABP News</span><span class="sc-pill">TV9 Hindi</span><span class="sc-pill">GoodReturns</span><span class="sc-pill">GizBot</span><span class="sc-pill">Filmibeat</span><span class="sc-pill">The Statesman</span><span class="sc-pill more">+ 14 more platforms</span>
+      </div>
+    </div>
+
+    <!-- Value strip -->
+    <div class="sc-vstrip" style="margin-bottom:40px">
+      <div class="sc-vi"><div class="sc-vi-lbl">Entry Price</div><div class="sc-vi-val">₹7,500</div></div>
+      <div class="sc-vi"><div class="sc-vi-lbl">Languages</div><div class="sc-vi-val">Hi + En</div></div>
+      <div class="sc-vi"><div class="sc-vi-lbl">Years Active</div><div class="sc-vi-val">7+</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ CTA with broadcast rings ═══ -->
+  <div class="sc-cta">
+    <!-- Broadcast rings (bottom-up) -->
+    <svg style="position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);z-index:0;opacity:0.07" width="600" height="300" viewBox="0 0 600 300">
+      <path d="M300,300 a100,100 0 0,1 -200,0 a100,100 0 0,1 200,0" fill="none" stroke="#D4960A" stroke-width="1"/>
+      <path d="M300,300 a160,160 0 0,1 -320,0 a160,160 0 0,1 320,0" fill="none" stroke="#D4960A" stroke-width="0.8"/>
+      <path d="M300,300 a220,220 0 0,1 -440,0 a220,220 0 0,1 440,0" fill="none" stroke="#D4960A" stroke-width="0.6"/>
+      <path d="M300,300 a280,280 0 0,1 -560,0" fill="none" stroke="#D4960A" stroke-width="0.4"/>
+      <!-- Microphone icon at top center -->
+      <rect x="288" y="120" width="24" height="36" rx="12" fill="none" stroke="#D4960A" stroke-width="1.5"/>
+      <path d="M278,148 a22,22 0 0,0 44,0" fill="none" stroke="#D4960A" stroke-width="1.5"/>
+      <line x1="300" y1="170" x2="300" y2="185" stroke="#D4960A" stroke-width="1.5"/>
+      <line x1="288" y1="185" x2="312" y2="185" stroke="#D4960A" stroke-width="1.5"/>
+    </svg>
+    <div class="sc-cta-content">
+      <div class="sc-cta-head">Ready to be seen by <em>100M readers?</em></div>
+      <div class="sc-cta-sub">Can we get 15 minutes on the calendar next week?</div>
+      <div class="sc-btn-row">
+        <a class="sc-btn-main" href="https://savincommunication.com" target="_blank">Book a Free Strategy Call</a>
+        <a class="sc-btn-wa" href="https://wa.me/message/QVPKNBQ7GQTUK1" target="_blank"><span class="sc-wa-dot"></span>Message on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ═══ -->
+  <div class="sc-footer">
+    <div>
+      <div class="sc-logo">Savin<span>.</span></div>
+      <div class="sc-logo-sub">Integrated PR &amp; Creative Agency</div>
+    </div>
+    <!-- Footer decorative signal bars -->
+    <svg width="60" height="32" viewBox="0 0 60 32" style="opacity:0.3">
+      <rect x="0"  y="20" width="8" height="12" rx="1" fill="#D4960A"/>
+      <rect x="13" y="14" width="8" height="18" rx="1" fill="#D4960A"/>
+      <rect x="26" y="8"  width="8" height="24" rx="1" fill="#D4960A"/>
+      <rect x="39" y="2"  width="8" height="30" rx="1" fill="#D4960A"/>
+      <rect x="52" y="0"  width="8" height="32" rx="1" fill="#D4960A" opacity="0.5"/>
+    </svg>
+    <div class="sc-footer-links">
+      <a class="sc-footer-link" href="https://savincommunication.com" target="_blank">savincommunication.com</a>
+      <a class="sc-footer-link" href="https://wa.me/message/QVPKNBQ7GQTUK1" target="_blank">WhatsApp Direct</a>
+    </div>
+  </div>
+
+</div>
